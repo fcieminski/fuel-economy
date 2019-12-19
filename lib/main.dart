@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_economy/components/car_info.dart';
+import 'package:fuel_economy/components/recent_fuelling.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,7 +26,14 @@ class Home extends StatelessWidget {
         title: Text('Wykaz spalania'),
       ),
       body: SingleChildScrollView(
-        child: Container(),
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              CarInfo(),
+              RecentFuelling(),
+            ],
+          ),
+        ),
       ),
     );
   }
