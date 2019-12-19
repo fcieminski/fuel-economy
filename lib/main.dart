@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_economy/components/add_recent_fuelling.dart';
 import 'package:fuel_economy/components/car_info.dart';
 import 'package:fuel_economy/components/recent_fuelling.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,6 +19,10 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
+  void _addRecentFuelling(BuildContext context) {
+    showDialog(context: context, builder: (_) => AddRecentFuelling());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +38,12 @@ class Home extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+        ),
+        onPressed: () => _addRecentFuelling(context),
       ),
     );
   }
