@@ -18,9 +18,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
-  void _addRecentFuelling(BuildContext context) {
-    showDialog(context: context, builder: (_) => AddRecentFuelling());
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Map<String, String>> newFuelling;
+
+  void _addRecentFuelling(BuildContext context) async {
+    await showDialog(context: context, builder: (_) => AddRecentFuelling())
+        .then((val) {
+      setState(() {
+        newFuelling = val;
+      });
+    });
   }
 
   @override
@@ -34,7 +46,7 @@ class Home extends StatelessWidget {
           child: Column(
             children: <Widget>[
               CarInfo(),
-              RecentFuelling(),
+              RecentFuelling(newFuelling),
             ],
           ),
         ),

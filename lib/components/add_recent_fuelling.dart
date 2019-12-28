@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AddRecentFuelling extends StatefulWidget {
-  // final Function _addRecentFuelling;
-
-  // AddRecentFuelling(this._addRecentFuelling);
-
   @override
   _AddRecentFuellingState createState() => _AddRecentFuellingState();
 }
@@ -15,9 +11,17 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
   final totalCost = TextEditingController();
 
   void submitForm() {
-    print(distance.text);
-    print(amount.text);
-    print(totalCost.text);
+    List<Map<String, String>> data = [
+      {
+        'distance': distance.text,
+        'amout': amount.text,
+        'totalCost': totalCost.text
+      }
+    ];
+    Navigator.pop(context, data);
+    // print(distance.text);
+    // print(amount.text);
+    // print(totalCost.text);
   }
 
   @override

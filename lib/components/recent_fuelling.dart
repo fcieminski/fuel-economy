@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class RecentFuelling extends StatefulWidget {
-  final List<Map<dynamic, dynamic>> _fueling = [
+  final List<Map<String, String>> _newFuelling;
+
+  RecentFuelling(this._newFuelling);
+
+  @override
+  _RecentFuellingState createState() => _RecentFuellingState();
+}
+
+class _RecentFuellingState extends State<RecentFuelling> {
+  final List<Map<dynamic, dynamic>> _fuelling = [
     {
       "id": DateTime.now(),
       "time": DateTime.now(),
@@ -35,16 +44,12 @@ class RecentFuelling extends StatefulWidget {
   ];
 
   @override
-  _RecentFuellingState createState() => _RecentFuellingState();
-}
-
-class _RecentFuellingState extends State<RecentFuelling> {
-  @override
   Widget build(BuildContext context) {
+    widget._newFuelling == null ? print('nope') : print(widget._newFuelling);
     return Container(
       child: ListView(
         shrinkWrap: true,
-        children: widget._fueling.map((fuel) {
+        children: _fuelling.map((fuel) {
           return Card(
               child: Row(
             children: <Widget>[
