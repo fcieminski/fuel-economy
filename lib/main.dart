@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
         child: Container(
           child: Column(
             children: <Widget>[
-              CarInfo(),
+              CarInfo(newFuelling),
               RecentFuelling(newFuelling),
             ],
           ),
