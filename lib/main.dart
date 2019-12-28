@@ -24,7 +24,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Map<String, String>> newFuelling;
+  Map<String, String> newFuelling;
 
   void _addRecentFuelling(BuildContext context) async {
     await showDialog(context: context, builder: (_) => AddRecentFuelling())

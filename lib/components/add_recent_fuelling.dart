@@ -11,17 +11,12 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
   final totalCost = TextEditingController();
 
   void submitForm() {
-    List<Map<String, String>> data = [
-      {
-        'distance': distance.text,
-        'amout': amount.text,
-        'totalCost': totalCost.text
-      }
-    ];
+    Map<String, String> data = {
+      'distance': distance.text,
+      'amount': amount.text,
+      'totalCost': totalCost.text
+    };
     Navigator.pop(context, data);
-    // print(distance.text);
-    // print(amount.text);
-    // print(totalCost.text);
   }
 
   @override

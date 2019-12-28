@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CarInfo extends StatefulWidget {
+  final Map<String, String> newFuelling;
+  CarInfo(this.newFuelling);
+
   @override
   _CarInfoState createState() => _CarInfoState();
 }

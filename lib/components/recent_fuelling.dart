@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RecentFuelling extends StatefulWidget {
-  final List<Map<String, String>> _newFuelling;
-
+  final Map<String, String> _newFuelling;
   RecentFuelling(this._newFuelling);
 
   @override
@@ -21,31 +20,31 @@ class _RecentFuellingState extends State<RecentFuelling> {
       'fuelCost': 5.10,
       'kmCost': 0.40
     },
-    {
-      "id": DateTime.now(),
-      "time": DateTime.now(),
-      "distance": 358,
-      "amount": 39,
-      "average": 8.10,
-      "totalCost": 257,
-      'fuelCost': 5.10,
-      'kmCost': 0.40
-    },
-    {
-      "id": DateTime.now(),
-      "time": DateTime.now(),
-      "distance": 358,
-      "amount": 39,
-      "average": 8.10,
-      "totalCost": 257,
-      'fuelCost': 5.10,
-      'kmCost': 0.40
-    }
   ];
+
+  void checkFunction(fuelling) {
+    if (fuelling != null) {
+      int distance = int.parse(fuelling['distance']);
+      double liters = double.parse(fuelling['amount']);
+      double totalCost = double.parse(fuelling['totalCost']);
+      setState(() {
+        _fuelling.add({
+          'id': DateTime.now(),
+          'time': DateTime.now(),
+          'distance': distance,
+          'amount': liters,
+          'average': num.parse((distance / liters).toStringAsFixed(2)),
+          'totalCost': totalCost,
+          'fuelCost': num.parse((totalCost / liters).toStringAsFixed(2)),
+          'kmCost': num.parse((totalCost / distance).toStringAsFixed(2))
+        });
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    widget._newFuelling == null ? print('nope') : print(widget._newFuelling);
+    checkFunction(widget._newFuelling);
     return Container(
       child: ListView(
         shrinkWrap: true,
