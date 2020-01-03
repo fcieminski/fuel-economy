@@ -29,16 +29,18 @@ class _CarInfoState extends State<CarInfo> {
         'currentMileage': currentMileage,
         'mileage': mileage,
         'totalFuelCost': totalFuelCost,
-        'averageFuelUsage': currentMileage / totalFuelCost,
       });
     });
   }
 
   void updateCarInfo(newFuelling) {
     if(newFuelling != null){
-      double newVal = double.parse(newFuelling['totalCost']);
+      double totalCost = double.parse(newFuelling['totalCost']);
+      double mileage = double.parse(newFuelling['distance']);
       setState(() {
-        _carInfo.update('totalFuelCost',  (dynamic val) => val += newVal);
+        _carInfo.update('totalFuelCost',  (dynamic val) => val += totalCost);
+        _carInfo.update('mileage',  (dynamic val) => val += mileage);
+        _carInfo.update('currentMileage',  (dynamic val) => val += mileage);
       });
     }
   }
@@ -135,7 +137,7 @@ class _CarInfoState extends State<CarInfo> {
                                       ),
                                     ),
                                     Text(
-                                      _carInfo['averageFuelUsage']
+                                      (_carInfo['totalFuelCost'] / _carInfo['currentMileage'])
                                           .toStringAsFixed(2),
                                       style: TextStyle(
                                         fontSize: 18,
