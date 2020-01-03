@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class CarInfo extends StatefulWidget {
   final Map<String, String> newFuelling;
-  CarInfo(this.newFuelling);
+  final Function(bool) notifyParent;
+  CarInfo({this.notifyParent, this.newFuelling});
 
   @override
   _CarInfoState createState() => _CarInfoState();
@@ -31,6 +32,7 @@ class _CarInfoState extends State<CarInfo> {
         'totalFuelCost': totalFuelCost,
       });
     });
+    widget.notifyParent(true);
   }
 
   void updateCarInfo(newFuelling) {

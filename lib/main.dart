@@ -25,13 +25,20 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map<String, String> newFuelling;
+  bool _isCarInfo = false;
 
   void _addRecentFuelling(BuildContext context) async {
-    await showDialog(context: context, builder: (_) => AddRecentFuelling())
-        .then((val) {
+    await showModalBottomSheet(
+        context: context, builder: (_) => AddRecentFuelling()).then((val) {
       setState(() {
         newFuelling = val;
       });
+    });
+  }
+
+  void updateCarInfo(bool childValue) {
+    setState(() {
+      _isCarInfo = childValue;
     });
   }
 
@@ -45,17 +52,20 @@ class _HomeState extends State<Home> {
         child: Container(
           child: Column(
             children: <Widget>[
-              CarInfo(newFuelling),
+              CarInfo(newFuelling: newFuelling, notifyParent: updateCarInfo),
               RecentFuelling(newFuelling),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
+      floatingActionButton: Visibility(
+        visible: _isCarInfo,
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+          ),
+          onPressed: () => _addRecentFuelling(context),
         ),
-        onPressed: () => _addRecentFuelling(context),
       ),
     );
   }
