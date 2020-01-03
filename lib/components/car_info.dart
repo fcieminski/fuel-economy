@@ -13,25 +13,39 @@ class _CarInfoState extends State<CarInfo> {
   final _carModel = TextEditingController();
   final _carEngine = TextEditingController();
   final _carCurrentMileage = TextEditingController();
+  final _carMileage = TextEditingController();
   final _carTotalFuelCost = TextEditingController();
-  // TextEditingController _carMileage;
-  Map<String, String> _carInfo = {};
+  Map<String, dynamic> _carInfo = {};
 
   void _submitForm() {
+    int currentMileage = int.parse(_carCurrentMileage.text);
+    int mileage = int.parse(_carMileage.text);
+    double totalFuelCost = double.parse(_carTotalFuelCost.text);
     setState(() {
       _carInfo.addAll({
         'model': _carModel.text,
         'maker': _carMaker.text,
         'engine': _carEngine.text,
-        'currentMileage': _carCurrentMileage.text,
-        'totalFuelCost': _carTotalFuelCost.text,
+        'currentMileage': currentMileage,
+        'mileage': mileage,
+        'totalFuelCost': totalFuelCost,
+        'averageFuelUsage': currentMileage / totalFuelCost,
       });
     });
-    print(_carInfo);
+  }
+
+  void updateCarInfo(newFuelling) {
+    if(newFuelling != null){
+      double newVal = double.parse(newFuelling['totalCost']);
+      setState(() {
+        _carInfo.update('totalFuelCost',  (dynamic val) => val += newVal);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    updateCarInfo(widget.newFuelling);
     return Container(
       child: Card(
         child: Padding(
@@ -46,7 +60,8 @@ class _CarInfoState extends State<CarInfo> {
                             fontSize: 16,
                             color: Colors.black,
                           ),
-                          label: Text('Honda Civic VIII 1.8 140km'),
+                          label: Text(
+                              '${_carInfo['maker']} ${_carInfo['model']} ${_carInfo['engine']}'),
                         ),
                       ],
                     ),
@@ -70,7 +85,7 @@ class _CarInfoState extends State<CarInfo> {
                                       ),
                                     ),
                                     Text(
-                                      '153 000',
+                                      '${_carInfo['currentMileage']}',
                                       style: TextStyle(
                                         fontSize: 16,
                                       ),
@@ -93,7 +108,7 @@ class _CarInfoState extends State<CarInfo> {
                                       ),
                                     ),
                                     Text(
-                                      '7 800',
+                                      '${_carInfo['mileage']}',
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -120,7 +135,8 @@ class _CarInfoState extends State<CarInfo> {
                                       ),
                                     ),
                                     Text(
-                                      '10.5',
+                                      _carInfo['averageFuelUsage']
+                                          .toStringAsFixed(2),
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -143,7 +159,7 @@ class _CarInfoState extends State<CarInfo> {
                                       ),
                                     ),
                                     Text(
-                                      '3 500',
+                                      '${_carInfo['totalFuelCost']}',
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -194,7 +210,16 @@ class _CarInfoState extends State<CarInfo> {
                                           keyboardType:
                                               TextInputType.numberWithOptions(),
                                           decoration: const InputDecoration(
-                                            labelText: 'Przejechane kilometry',
+                                            labelText:
+                                                'Pokonana odległość od zakupu',
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          controller: _carMileage,
+                                          keyboardType:
+                                              TextInputType.numberWithOptions(),
+                                          decoration: const InputDecoration(
+                                            labelText: 'Łączny przebieg',
                                           ),
                                         ),
                                         TextFormField(
@@ -210,7 +235,10 @@ class _CarInfoState extends State<CarInfo> {
                                           child: Text(
                                             'Zapisz',
                                           ),
-                                          onPressed: _submitForm,
+                                          onPressed: () {
+                                            _submitForm();
+                                            Navigator.pop(context);
+                                          },
                                         )
                                       ],
                                     ),

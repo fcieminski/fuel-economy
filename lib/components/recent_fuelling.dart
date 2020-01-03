@@ -9,7 +9,7 @@ class RecentFuelling extends StatefulWidget {
 }
 
 class _RecentFuellingState extends State<RecentFuelling> {
-  final List<Map<dynamic, dynamic>> _fuelling = [
+  final List<Map<String, dynamic>> _fuelling = [
     {
       "id": DateTime.now(),
       "time": DateTime.now(),
