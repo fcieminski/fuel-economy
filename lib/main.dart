@@ -24,7 +24,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Map<String, String> newFuelling;
+  Map<String, dynamic> newFuelling;
   bool _isCarInfo = false;
 
   void _addRecentFuelling(BuildContext context) async {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CarInfo extends StatefulWidget {
-  final Map<String, String> newFuelling;
+  final Map<String, dynamic> newFuelling;
   final Function(bool) notifyParent;
   CarInfo({this.notifyParent, this.newFuelling});
 
@@ -46,6 +46,7 @@ class _CarInfoState extends State<CarInfo> {
       });
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RecentFuelling extends StatefulWidget {
-  final Map<String, String> _newFuelling;
+  final Map<String, dynamic> _newFuelling;
   RecentFuelling(this._newFuelling);
 
   @override
@@ -30,7 +30,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
       setState(() {
         _fuelling.add({
           'id': DateTime.now(),
-          'time': DateTime.now(),
+          'time': fuelling['time'],
           'distance': distance,
           'amount': liters,
           'average': num.parse((distance / liters).toStringAsFixed(2)),
@@ -47,68 +47,137 @@ class _RecentFuellingState extends State<RecentFuelling> {
     checkFunction(widget._newFuelling);
     return Container(
       child: ListView(
+        scrollDirection: Axis.vertical,
         shrinkWrap: true,
         children: _fuelling.map((fuel) {
           return Card(
-              child: Row(
+              child:  SingleChildScrollView(
+                              child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Chip(
-                  labelStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                  label: Text('${fuel['average'].toString()}l'),
+                Container(
+                  child: Text('${fuel['time']}'),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  fuel['distance'].toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Chip(
+                        labelStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                        label: Text('cena'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'cena',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'cena',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'cena',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'cena',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        'cena',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  fuel['totalCost'].toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Chip(
+                        labelStyle: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                        label: Text('${fuel['average']} l'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        '${fuel['distance']} km',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        '${fuel['totalCost']} zł',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        '${fuel['amount']} l',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        '${fuel['fuelCost']} zł/l',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        '${fuel['kmCost']} zł/km',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  fuel['amount'].toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  fuel['fuelCost'].toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  fuel['kmCost'].toString(),
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
             ],
-          ));
+          ),
+              ));
         }).toList(),
       ),
     );
