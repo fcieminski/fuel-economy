@@ -52,10 +52,6 @@ class _RecentFuellingState extends State<RecentFuelling> {
         children: _fuelling.map((fuel) {
           return Card(
               child: SingleChildScrollView(
-            // child: Column(
-            //   children: <Widget>[
-
-            //
             child: Column(
               children: <Widget>[
                 Row(
@@ -74,7 +70,8 @@ class _RecentFuellingState extends State<RecentFuelling> {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Container(
-                        child: Text('${fuel['time'].toString().substring(0, 10)}'),
+                        child:
+                            Text('${fuel['time'].toString().substring(0, 10)}'),
                       ),
                     ),
                   ],
@@ -82,7 +79,8 @@ class _RecentFuellingState extends State<RecentFuelling> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Table(
-                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
                       defaultColumnWidth: FlexColumnWidth(.25),
                       children: [
                         TableRow(children: [

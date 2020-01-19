@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuel_economy/components/add_recent_fuelling.dart';
 import 'package:fuel_economy/components/car_info.dart';
 import 'package:fuel_economy/components/recent_fuelling.dart';
+import 'package:fuel_economy/components/notes.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,7 +27,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map<String, dynamic> newFuelling;
   bool _isCarInfo = false;
-  List<String> menu = ['Archiwum spalania', 'Najbliższe wymiany', 'Przeglądy', 'Notatki'];
+  Map<String, Widget> menu = {
+    'Archiwum spalania': Notes(),
+    'Najbliższe wymiany': Notes(),
+    'Przeglądy': Notes(),
+    'Notatki': Notes(),
+  };
 
   void _addRecentFuelling(BuildContext context) async {
     await showModalBottomSheet(
@@ -52,18 +58,25 @@ class _HomeState extends State<Home> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: new DropdownButtonHideUnderline(
-              child: new DropdownButton<String>(
+              child: new DropdownButton<Widget>(
                 icon: Icon(
                   Icons.more_vert,
                   color: Colors.white,
                 ),
-                items: menu.map((String value) {
-                  return new DropdownMenuItem<String>(
-                    value: value,
-                    child: new Text(value),
+                items: menu.entries
+                    .map<DropdownMenuItem<Widget>>(
+                        (MapEntry<String, Widget> route) =>
+                            DropdownMenuItem<Widget>(
+                              value: route.value,
+                              child: Text(route.key),
+                            ))
+                    .toList(),
+                onChanged: (value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => value),
                   );
-                }).toList(),
-                onChanged: (_) {},
+                },
               ),
             ),
           ),
