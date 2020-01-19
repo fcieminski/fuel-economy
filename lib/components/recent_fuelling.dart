@@ -51,13 +51,15 @@ class _RecentFuellingState extends State<RecentFuelling> {
         shrinkWrap: true,
         children: _fuelling.map((fuel) {
           return Card(
-              child:  SingleChildScrollView(
-                              child: Column(
-            children: <Widget>[
-                Container(
-                  child: Text('${fuel['time']}'),
-                ),
+              child: SingleChildScrollView(
+            // child: Column(
+            //   children: <Widget>[
+
+            //
+            child: Column(
+              children: <Widget>[
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(4.0),
@@ -66,118 +68,119 @@ class _RecentFuellingState extends State<RecentFuelling> {
                           fontSize: 16,
                           color: Colors.black,
                         ),
-                        label: Text('cena'),
+                        label: Text('średnie spalanie: ${fuel['average']} l'),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'cena',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'cena',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'cena',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'cena',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        'cena',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Container(
+                        child: Text('${fuel['time'].toString().substring(0, 10)}'),
                       ),
                     ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Chip(
-                        labelStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
+                Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    defaultColumnWidth: FlexColumnWidth(.25),
+                    children: [
+                      TableRow(children: [
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'dystans',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                        label: Text('${fuel['average']} l'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        '${fuel['distance']} km',
-                        style: TextStyle(
-                          fontSize: 16,
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'koszt',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        '${fuel['totalCost']} zł',
-                        style: TextStyle(
-                          fontSize: 16,
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'litry',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        '${fuel['amount']} l',
-                        style: TextStyle(
-                          fontSize: 16,
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'zł/l',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        '${fuel['fuelCost']} zł/l',
-                        style: TextStyle(
-                          fontSize: 16,
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            'zł/km',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        '${fuel['kmCost']} zł/km',
-                        style: TextStyle(
-                          fontSize: 16,
+                      ]),
+                      TableRow(children: [
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            '${fuel['distance']} km',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-            ],
-          ),
-              ));
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            '${fuel['totalCost']} zł',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            '${fuel['amount']} l',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            '${fuel['fuelCost']} zł/l',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            '${fuel['kmCost']} zł/km',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ]),
+                    ]),
+              ],
+            ),
+          ));
         }).toList(),
       ),
     );

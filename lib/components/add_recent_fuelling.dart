@@ -36,47 +36,49 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              keyboardType: TextInputType.numberWithOptions(),
-              controller: amount,
-              decoration: const InputDecoration(
-                labelText: 'Ilość benzyny',
+        child: SingleChildScrollView(
+                  child: Column(
+            children: <Widget>[
+              TextFormField(
+                keyboardType: TextInputType.numberWithOptions(),
+                controller: amount,
+                decoration: const InputDecoration(
+                  labelText: 'Ilość benzyny',
+                ),
+                onSaved: (String value) {
+                  submitForm();
+                },
               ),
-              onSaved: (String value) {
-                submitForm();
-              },
-            ),
-            TextFormField(
-              keyboardType: TextInputType.numberWithOptions(),
-              controller: totalCost,
-              decoration: const InputDecoration(
-                labelText: 'Koszt benzyny',
+              TextFormField(
+                keyboardType: TextInputType.numberWithOptions(),
+                controller: totalCost,
+                decoration: const InputDecoration(
+                  labelText: 'Koszt benzyny',
+                ),
+                onSaved: (String value) {
+                  submitForm();
+                },
               ),
-              onSaved: (String value) {
-                submitForm();
-              },
-            ),
-            TextFormField(
-              keyboardType: TextInputType.numberWithOptions(),
-              controller: distance,
-              decoration: const InputDecoration(
-                labelText: 'Przejechany dystans',
+              TextFormField(
+                keyboardType: TextInputType.numberWithOptions(),
+                controller: distance,
+                decoration: const InputDecoration(
+                  labelText: 'Przejechany dystans',
+                ),
+                onSaved: (String value) {
+                  submitForm();
+                },
               ),
-              onSaved: (String value) {
-                submitForm();
-              },
-            ),
-            FlatButton(
-              child: Text(
-                'Wybierz datę',
+              FlatButton(
+                child: Text(
+                  'Wybierz datę',
+                ),
+                onPressed: () {
+                  _dataPicker(context);
+                },
               ),
-              onPressed: () {
-                _dataPicker(context);
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
