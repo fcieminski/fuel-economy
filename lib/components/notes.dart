@@ -7,14 +7,30 @@ class Notes extends StatefulWidget {
 
 class _NotesState extends State<Notes> {
   final note = TextEditingController();
-  List<String> notes = [];
+  List<Map<String, dynamic>> notes = [
+    {
+      'text': 'asdasdasdasdasd',
+      'date': DateTime.now(),
+    },
+  ];
 
   void _submitNote() => {
         setState(() {
-          notes.add(note.text);
+          notes.add({
+            'text': note.text,
+            'date': DateTime.now(),
+          });
         }),
         note.clear()
       };
+
+    void _deleteNote(Map note) => {
+      setState(() {
+        notes.remove(note);
+      })
+    };
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +46,33 @@ class _NotesState extends State<Notes> {
               if (notes != null)
                 ...notes.map(
                   (element) => Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      element,
-                      style: TextStyle(
-                        fontSize: 20,
+                      child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('${element['date']}'),
+                            IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                              ),
+                              onPressed: () => _deleteNote(element),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          element['text'],
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ],
                   )),
                 )
             ],
