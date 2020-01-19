@@ -24,13 +24,11 @@ class _NotesState extends State<Notes> {
         note.clear()
       };
 
-    void _deleteNote(Map note) => {
-      setState(() {
-        notes.remove(note);
-      })
-    };
-
-
+  void _deleteNote(Map note) => {
+        setState(() {
+          notes.remove(note);
+        })
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +45,7 @@ class _NotesState extends State<Notes> {
                 ...notes.map(
                   (element) => Card(
                       child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -64,7 +63,8 @@ class _NotesState extends State<Notes> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(
+                            bottom: 8.0, left: 8.0, right: 8.0),
                         child: Text(
                           element['text'],
                           style: TextStyle(
