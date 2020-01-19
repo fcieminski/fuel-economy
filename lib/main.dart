@@ -26,6 +26,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map<String, dynamic> newFuelling;
   bool _isCarInfo = false;
+  List<String> menu = ['Archiwum spalania', 'Najbliższe wymiany', 'Przeglądy', 'Notatki'];
 
   void _addRecentFuelling(BuildContext context) async {
     await showModalBottomSheet(
@@ -45,8 +46,32 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: new AppBar(
         title: Text('Wykaz spalania'),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new DropdownButtonHideUnderline(
+              child: new DropdownButton<String>(
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
+                items: menu.map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (_) {},
+              ),
+            ),
+          ),
+        ],
+      ),
+      drawer: new Drawer(
+        elevation: 2,
+        child: Column(),
       ),
       body: SingleChildScrollView(
         child: Container(

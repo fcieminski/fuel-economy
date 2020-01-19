@@ -79,105 +79,108 @@ class _RecentFuellingState extends State<RecentFuelling> {
                     ),
                   ],
                 ),
-                Table(
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    defaultColumnWidth: FlexColumnWidth(.25),
-                    children: [
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            'dystans',
-                            style: TextStyle(
-                              fontSize: 16,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Table(
+                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      defaultColumnWidth: FlexColumnWidth(.25),
+                      children: [
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              'dystans',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            'koszt',
-                            style: TextStyle(
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              'koszt',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            'litry',
-                            style: TextStyle(
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              'litry',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            'zł/l',
-                            style: TextStyle(
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              'zł/l',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            'zł/km',
-                            style: TextStyle(
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              'zł/km',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
+                        ]),
+                        TableRow(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              '${fuel['distance']} km',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              '${fuel['totalCost']} zł',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              '${fuel['amount']} l',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              '${fuel['fuelCost']} zł/l',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              '${fuel['kmCost']} zł/km',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ]),
                       ]),
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            '${fuel['distance']} km',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            '${fuel['totalCost']} zł',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            '${fuel['amount']} l',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            '${fuel['fuelCost']} zł/l',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(
-                            '${fuel['kmCost']} zł/km',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ]),
-                    ]),
+                ),
               ],
             ),
           ));
