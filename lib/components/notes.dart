@@ -7,6 +7,7 @@ class Notes extends StatefulWidget {
 
 class _NotesState extends State<Notes> {
   final note = TextEditingController();
+  final editedNote = TextEditingController();
   List<Map<String, dynamic>> notes = [
     {
       'text': 'asdasdasdasdasd',
@@ -27,6 +28,12 @@ class _NotesState extends State<Notes> {
   void _deleteNote(Map note) => {
         setState(() {
           notes.remove(note);
+        })
+      };
+
+  void _editNote(int index, String text) => {
+        setState(() {
+          notes[index].update('text', (dynamic val) => val = text);
         })
       };
 
@@ -53,11 +60,56 @@ class _NotesState extends State<Notes> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text('${element['date']}'),
-                            IconButton(
-                              icon: Icon(
-                                Icons.delete,
-                              ),
-                              onPressed: () => _deleteNote(element),
+                            Row(
+                              children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                  ),
+                                  onPressed: () => showModalBottomSheet(
+                                    context: context,
+                                    builder: (_) {
+                                      editedNote.text = element['text'];
+                                      return Container(
+                                        child: Scaffold(
+                                          body: SingleChildScrollView(
+                                            child: Form(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  new TextField(
+                                                    maxLines: null,
+                                                    controller: editedNote,
+                                                    keyboardType:
+                                                        TextInputType.multiline,
+                                                  ),
+                                                  FlatButton(
+                                                    child: Text(
+                                                      'Zapisz',
+                                                    ),
+                                                    onPressed: () {
+                                                      _editNote(
+                                                          notes
+                                                              .indexOf(element),
+                                                          editedNote.text);
+                                                      Navigator.pop(context);
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                  ),
+                                  onPressed: () => _deleteNote(element),
+                                )
+                              ],
                             )
                           ],
                         ),
@@ -85,35 +137,36 @@ class _NotesState extends State<Notes> {
         ),
         onPressed: () => {
           showModalBottomSheet(
-              context: context,
-              builder: (_) {
-                return Container(
-                  child: Scaffold(
-                    body: SingleChildScrollView(
-                      child: Form(
-                        child: Column(
-                          children: <Widget>[
-                            new TextField(
-                              maxLines: null,
-                              controller: note,
-                              keyboardType: TextInputType.multiline,
+            context: context,
+            builder: (_) {
+              return Container(
+                child: Scaffold(
+                  body: SingleChildScrollView(
+                    child: Form(
+                      child: Column(
+                        children: <Widget>[
+                          new TextField(
+                            maxLines: null,
+                            controller: note,
+                            keyboardType: TextInputType.multiline,
+                          ),
+                          FlatButton(
+                            child: Text(
+                              'Zapisz',
                             ),
-                            FlatButton(
-                              child: Text(
-                                'Zapisz',
-                              ),
-                              onPressed: () {
-                                _submitNote();
-                                Navigator.pop(context);
-                              },
-                            )
-                          ],
-                        ),
+                            onPressed: () {
+                              _submitNote();
+                              Navigator.pop(context);
+                            },
+                          )
+                        ],
                       ),
                     ),
                   ),
-                );
-              })
+                ),
+              );
+            },
+          )
         },
       ),
     );
