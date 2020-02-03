@@ -15,8 +15,6 @@ class _NearestServiceState extends State<NearestService> {
   @override
   initState() {
     super.initState();
-    service = {'last': new DateTime.now(), 'nearest': new DateTime.now()};
-    nextService = 5;
     var initializationSettingsAndroid =
         new AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = new IOSInitializationSettings();
@@ -26,7 +24,7 @@ class _NearestServiceState extends State<NearestService> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
     if (service.isNotEmpty) {
       var scheduledNotificationDateTime =
-          new DateTime.now().add(Duration(seconds: 2));
+          new DateTime.now().add(Duration(days: nextService - 3));
       _notifAboutService(scheduledNotificationDateTime);
     }
   }

@@ -4,6 +4,7 @@ import 'package:fuel_economy/components/car_info.dart';
 import 'package:fuel_economy/components/nearest_service.dart';
 import 'package:fuel_economy/components/recent_fuelling.dart';
 import 'package:fuel_economy/components/notes.dart';
+import 'package:fuel_economy/components/replace.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,7 +31,7 @@ class _HomeState extends State<Home> {
   bool _isCarInfo = false;
   Map<String, Widget> menu = {
     'Archiwum spalania': Notes(),
-    'Najbliższe wymiany': Notes(),
+    'Najbliższe wymiany': Replace(),
     'Przeglądy': NearestService(),
     'Notatki': Notes(),
   };

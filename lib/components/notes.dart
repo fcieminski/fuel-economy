@@ -48,7 +48,7 @@ class _NotesState extends State<Notes> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              if (notes != null)
+              if (notes.isNotEmpty)
                 ...notes.map(
                   (element) => Card(
                       child: Column(
