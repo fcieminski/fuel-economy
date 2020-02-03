@@ -52,169 +52,216 @@ class _ReplaceState extends State<Replace> {
     });
   }
 
+  void _removeReplacementInfo(element) {
+    setState(() {
+      replace.remove(element);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
         title: Text('Najbliższe wymiany'),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-            child: ListView(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          children: (replace.isNotEmpty)
-              ? replace
-                  .map((element) => Card(
-                   color: Colors.green[100],
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8),
-                                        child: Icon(
-                                          Icons.build,
-                                          size: 18,
-                                        ),
+      body: (replace.isNotEmpty)
+          ? new ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: replace
+                  .map(
+                    (element) => Card(
+                      color: (element['isDone'])
+                          ? Colors.green[100]
+                          : Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: Icon(
+                                        Icons.build,
+                                        size: 18,
                                       ),
-                                      Text(
-                                        'Do wymiany',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.note),
-                                        onPressed: () => showDialog(
-                                            context: context,
-                                            builder: (_) {
-                                              return SimpleDialog(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              16),
-                                                      child: Text(
-                                                        '${element['note']}',
-                                                        style: TextStyle(
-                                                          fontSize: 20,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ]);
-                                            }),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () => {},
-                                      ),
-                                      IconButton(
-                                        icon: Icon((element['isDone'])
-                                            ? Icons.check_box
-                                            : Icons.check_box_outline_blank),
-                                        onPressed: () => _partReplaced(element),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.black12,
-                              height: 1,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(25),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8),
-                                    child: Text(
-                                      '${element['item']}',
+                                    ),
+                                    Text(
+                                      'Do wymiany',
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 8),
-                                          child: Icon(
-                                            Icons.attach_money,
-                                            size: 20,
-                                          ),
-                                        ),
-                                        Text(
-                                          '${element['price']} zł',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(Icons.note),
+                                      onPressed: () => showDialog(
+                                          context: context,
+                                          builder: (_) {
+                                            return SimpleDialog(
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16),
+                                                    child: Text(
+                                                      '${element['note']}',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ]);
+                                          }),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () => showDialog(
+                                          context: context,
+                                          builder: (_) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                'Uwaga',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                              titlePadding: EdgeInsets.all(10),
+                                              content: Text(
+                                                'Na pewno chcesz usunąć element?',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                              actions: <Widget>[
+                                                FlatButton(
+                                                    onPressed: () => {
+                                                          _removeReplacementInfo(
+                                                              element),
+                                                          Navigator.pop(
+                                                              context),
+                                                        },
+                                                    child: Text(
+                                                      'Tak',
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    )),
+                                                FlatButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: Text(
+                                                      'Nie',
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ))
+                                              ],
+                                            );
+                                          }),
+                                    ),
+                                    IconButton(
+                                      icon: Icon((element['isDone'])
+                                          ? Icons.check_box
+                                          : Icons.check_box_outline_blank),
+                                      onPressed: () => _partReplaced(element),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            color: Colors.black12,
+                            height: 1,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(25),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Text(
+                                    '${element['item']}',
+                                    style: TextStyle(
+                                      fontSize: 18,
                                     ),
                                   ),
-                                  Row(
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Row(
                                     children: <Widget>[
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(right: 8),
                                         child: Icon(
-                                          Icons.directions_car,
+                                          Icons.attach_money,
                                           size: 20,
                                         ),
                                       ),
                                       Text(
-                                        '${element['when']} km',
+                                        '${element['price']} zł',
                                         style: TextStyle(
                                           fontSize: 18,
                                         ),
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: Icon(
+                                        Icons.directions_car,
+                                        size: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${element['when']} km',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ))
-                  .toList()
-              : SizedBox(
-                  width: double.infinity,
-                  height: 200.0,
-                  child: const Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          'Dodaj listę rzeczy do wymiany',
-                          style: TextStyle(
-                            fontSize: 24,
                           ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList())
+          : Container(
+              child: SizedBox(
+                width: double.infinity,
+                height: 200.0,
+                child: const Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        'Dodaj listę rzeczy do wymiany',
+                        style: TextStyle(
+                          fontSize: 24,
                         ),
                       ),
                     ),
                   ),
                 ),
-        )),
-      ),
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
