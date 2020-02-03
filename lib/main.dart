@@ -28,6 +28,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map<String, dynamic> newFuelling;
+  String distance;
   bool _isCarInfo = false;
   Map<String, Widget> menu = {
     'Archiwum spalania': Notes(),
@@ -41,6 +42,7 @@ class _HomeState extends State<Home> {
         context: context, builder: (_) => AddRecentFuelling()).then((val) {
       setState(() {
         newFuelling = val;
+        distance = val['distance'];
       });
     });
   }

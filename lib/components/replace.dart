@@ -6,11 +6,51 @@ class Replace extends StatefulWidget {
 }
 
 class _ReplaceState extends State<Replace> {
-  List<Map<String, dynamic>> replace = [];
+  List<Map<String, dynamic>> replace = [
+    {
+      'item': 'Olej silnikowy',
+      'when': 10000,
+      'price': 200,
+      'note': 'blablablablabla',
+      'isDone': true,
+    },
+    {
+      'item': 'Drążki kierownicze',
+      'when': 3000,
+      'price': 100,
+      'note': 'blablablxxxxxxx',
+      'isDone': false,
+    }
+  ];
+
   var partToReplace = TextEditingController();
   var kmToReplace = TextEditingController();
+  var price = TextEditingController();
+  var note = TextEditingController();
 
-  void _submitReplace() {}
+  void _submitReplace() {
+    var part = partToReplace.text;
+    var km = num.parse(kmToReplace.text);
+    var cost = num.parse(price.text);
+    var moreInfo = note.text;
+    if (part is String && km is num && cost is num) {
+      setState(() {
+        replace.add({
+          'item': part,
+          'when': km,
+          'price': cost,
+          'note': moreInfo,
+          'isDone': false
+        });
+      });
+    }
+  }
+
+  void _partReplaced(element) {
+    setState(() {
+      element['isDone'] = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +59,161 @@ class _ReplaceState extends State<Replace> {
         title: Text('Najbliższe wymiany'),
       ),
       body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          height: 200.0,
-          child: const Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(
-                  'Dodaj listę rzeczy do wymiany',
-                  style: TextStyle(
-                    fontSize: 24,
+        child: Container(
+            child: ListView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          children: (replace.isNotEmpty)
+              ? replace
+                  .map((element) => Card(
+                   color: Colors.green[100],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8),
+                                        child: Icon(
+                                          Icons.build,
+                                          size: 18,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Do wymiany',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(Icons.note),
+                                        onPressed: () => showDialog(
+                                            context: context,
+                                            builder: (_) {
+                                              return SimpleDialog(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              16),
+                                                      child: Text(
+                                                        '${element['note']}',
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ]);
+                                            }),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () => {},
+                                      ),
+                                      IconButton(
+                                        icon: Icon((element['isDone'])
+                                            ? Icons.check_box
+                                            : Icons.check_box_outline_blank),
+                                        onPressed: () => _partReplaced(element),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              color: Colors.black12,
+                              height: 1,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(25),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: Text(
+                                      '${element['item']}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 8),
+                                          child: Icon(
+                                            Icons.attach_money,
+                                            size: 20,
+                                          ),
+                                        ),
+                                        Text(
+                                          '${element['price']} zł',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8),
+                                        child: Icon(
+                                          Icons.directions_car,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${element['when']} km',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
+                  .toList()
+              : SizedBox(
+                  width: double.infinity,
+                  height: 200.0,
+                  child: const Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(
+                          'Dodaj listę rzeczy do wymiany',
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ),
+        )),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
@@ -60,13 +238,31 @@ class _ReplaceState extends State<Replace> {
                           keyboardType: TextInputType.text,
                         ),
                         new TextField(
-                            decoration: InputDecoration(
+                          decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Ile km do wymiany?',
                           ),
                           maxLines: null,
                           controller: kmToReplace,
                           keyboardType: TextInputType.number,
+                        ),
+                        new TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Koszt wymiany',
+                          ),
+                          maxLines: null,
+                          controller: price,
+                          keyboardType: TextInputType.number,
+                        ),
+                        new TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Notatka',
+                          ),
+                          maxLines: null,
+                          controller: note,
+                          keyboardType: TextInputType.multiline,
                         ),
                         FlatButton(
                           child: Text(
