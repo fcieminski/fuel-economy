@@ -15,25 +15,53 @@ class _NearestServiceState extends State<NearestService> {
   @override
   initState() {
     super.initState();
+    service = {'last': new DateTime.now(), 'nearest': new DateTime.now()};
+    nextService = 5;
     var initializationSettingsAndroid =
         new AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    if (service.isNotEmpty) {
+      var scheduledNotificationDateTime =
+          new DateTime.now().add(Duration(seconds: 2));
+      _notifAboutService(scheduledNotificationDateTime);
+    }
   }
 
-  Future _notifAboutService() async {
+  _notifAboutService(scheduledNotificationDateTime) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High);
+        'your other channel id',
+        'your other channel name',
+        'your other channel description');
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails(
+    NotificationDetails platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin
-        .show(0, 'service', 'test', platformChannelSpecifics, payload: 'hello');
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        'Zbliża się przegląd!',
+        'Pozostało $nextService dni',
+        scheduledNotificationDateTime,
+        platformChannelSpecifics,
+        androidAllowWhileIdle: true);
+  }
+
+  _notificationsOn() async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'your other channel id',
+        'your other channel name',
+        'your other channel description');
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    NotificationDetails platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      1,
+      'Powiadomienie',
+      'Powiadomienie o następnym przeglądzie włączone',
+      platformChannelSpecifics,
+    );
   }
 
   void _dataPicker(BuildContext context) async {
@@ -44,13 +72,15 @@ class _NearestServiceState extends State<NearestService> {
       firstDate: DateTime(2018),
       lastDate: DateTime.now(),
     );
-    setState(() {
-      service = {
-        'last': last,
-        'nearest': new DateTime(last.year + 1, last.month, last.day + 1)
-      };
-      nextService = service['nearest'].difference(service['last']).inDays;
-    });
+    if (last != null) {
+      setState(() {
+        service = {
+          'last': last,
+          'nearest': new DateTime(last.year + 1, last.month, last.day + 1)
+        };
+        nextService = service['nearest'].difference(new DateTime.now()).inDays;
+      });
+    }
   }
 
   @override
@@ -82,7 +112,7 @@ class _NearestServiceState extends State<NearestService> {
                               ),
                               IconButton(
                                 icon: Icon(Icons.add_alert),
-                                onPressed: () => _notifAboutService(),
+                                onPressed: () => _notificationsOn(),
                               )
                             ],
                           ),
@@ -131,16 +161,6 @@ class _NearestServiceState extends State<NearestService> {
           Icons.add,
         ),
         onPressed: () => _dataPicker(context),
-      ),
-    );
-  }
-
-  Future onSelectNotification(String payload) async {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: new Text('Notificatioooooon'),
-        content: new Text('$payload'),
       ),
     );
   }
