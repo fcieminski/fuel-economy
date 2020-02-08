@@ -33,7 +33,7 @@ class _CarInfoState extends State<CarInfo> {
       setState(() {
         _carInfo = json.decode(saveData.getString('carInfo'));
       });
-          widget.notifyParent(true);
+      widget.notifyParent(true);
     } else {
       setState(() {
         _carInfo = {};
