@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "615876342967",
+    "firebase_url": "https://fuelling-economy.firebaseio.com",
+    "project_id": "fuelling-economy",
+    "storage_bucket": "fuelling-economy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615876342967:android:5920439dc2811cb93d4932",
+        "android_client_info": {
+          "package_name": "com.fcieminski.fuel_economy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615876342967-m0378c67r0kr6n4hade55f1pashbth1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5uQifUvamZ6P2geocDq47o36UQGkJ56s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615876342967-m0378c67r0kr6n4hade55f1pashbth1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.example.fuel_economy
+package com.fcieminski.fuel_economy
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

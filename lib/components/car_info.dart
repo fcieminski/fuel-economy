@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CarInfo extends StatefulWidget {
   final Map<String, dynamic> newFuelling;
@@ -16,9 +19,30 @@ class _CarInfoState extends State<CarInfo> {
   final _carCurrentMileage = TextEditingController();
   final _carMileage = TextEditingController();
   final _carTotalFuelCost = TextEditingController();
-  Map<String, dynamic> _carInfo = {};
+  Map<String, dynamic> _carInfo;
 
-  void _submitForm() {
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future getUserData() async {
+    final saveData = await SharedPreferences.getInstance();
+    if (saveData.getString('carInfo') != null) {
+      setState(() {
+        _carInfo = json.decode(saveData.getString('carInfo'));
+      });
+          widget.notifyParent(true);
+    } else {
+      setState(() {
+        _carInfo = {};
+      });
+    }
+  }
+
+  void _submitForm() async {
+    final saveData = await SharedPreferences.getInstance();
     int currentMileage = int.parse(_carCurrentMileage.text);
     int mileage = int.parse(_carMileage.text);
     double totalFuelCost = double.parse(_carTotalFuelCost.text);
@@ -32,21 +56,21 @@ class _CarInfoState extends State<CarInfo> {
         'totalFuelCost': totalFuelCost,
       });
     });
+    saveData.setString('carInfo', json.encode(_carInfo));
     widget.notifyParent(true);
   }
 
   void updateCarInfo(newFuelling) {
-    if(newFuelling != null){
+    if (newFuelling != null) {
       double totalCost = double.parse(newFuelling['totalCost']);
       double mileage = double.parse(newFuelling['distance']);
       setState(() {
-        _carInfo.update('totalFuelCost',  (dynamic val) => val += totalCost);
-        _carInfo.update('mileage',  (dynamic val) => val += mileage);
-        _carInfo.update('currentMileage',  (dynamic val) => val += mileage);
+        _carInfo.update('totalFuelCost', (dynamic val) => val += totalCost);
+        _carInfo.update('mileage', (dynamic val) => val += mileage);
+        _carInfo.update('currentMileage', (dynamic val) => val += mileage);
       });
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +79,7 @@ class _CarInfoState extends State<CarInfo> {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: (_carInfo.isNotEmpty)
+          child: (_carInfo != null && _carInfo.isNotEmpty)
               ? Column(
                   children: <Widget>[
                     Row(
@@ -140,7 +164,8 @@ class _CarInfoState extends State<CarInfo> {
                                       ),
                                     ),
                                     Text(
-                                      (_carInfo['totalFuelCost'] / _carInfo['currentMileage'])
+                                      (_carInfo['totalFuelCost'] /
+                                              _carInfo['currentMileage'])
                                           .toStringAsFixed(2),
                                       style: TextStyle(
                                         fontSize: 18,

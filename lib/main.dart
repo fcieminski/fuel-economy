@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuel_economy/components/add_recent_fuelling.dart';
 import 'package:fuel_economy/components/car_info.dart';
+import 'package:fuel_economy/components/fuelling_archive.dart';
 import 'package:fuel_economy/components/nearest_service.dart';
 import 'package:fuel_economy/components/recent_fuelling.dart';
 import 'package:fuel_economy/components/notes.dart';
@@ -31,7 +32,7 @@ class _HomeState extends State<Home> {
   String distance;
   bool _isCarInfo = false;
   Map<String, Widget> menu = {
-    'Archiwum spalania': Notes(),
+    'Archiwum spalania': FuellingArchive(),
     'Najbliższe wymiany': Replace(),
     'Przeglądy': NearestService(),
     'Notatki': Notes(),
