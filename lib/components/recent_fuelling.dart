@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:fuel_economy/models/fuelling_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RecentFuelling extends StatefulWidget {
@@ -72,7 +71,6 @@ class _RecentFuellingState extends State<RecentFuelling> {
               shrinkWrap: true,
               children: _fuelling.map((fuel) {
                 return Card(
-                    child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -203,7 +201,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
                       ),
                     ],
                   ),
-                ));
+                );
               }).toList())
           : Container(
               child: SizedBox(

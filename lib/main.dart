@@ -87,18 +87,12 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      drawer: new Drawer(
-        elevation: 2,
-        child: Column(),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              CarInfo(newFuelling: newFuelling, notifyParent: updateCarInfo),
-              RecentFuelling(newFuelling),
-            ],
-          ),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            CarInfo(newFuelling: newFuelling, notifyParent: updateCarInfo),
+            Expanded(child: RecentFuelling(newFuelling)),
+          ],
         ),
       ),
       floatingActionButton: Visibility(

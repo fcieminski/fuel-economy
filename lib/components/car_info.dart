@@ -41,8 +41,12 @@ class _CarInfoState extends State<CarInfo> {
     }
   }
 
-  void _submitForm() async {
+  Future saveToStorage(data) async {
     final saveData = await SharedPreferences.getInstance();
+    saveData.setString('carInfo', data);
+  }
+
+  void _submitForm() async {
     int currentMileage = int.parse(_carCurrentMileage.text);
     int mileage = int.parse(_carMileage.text);
     double totalFuelCost = double.parse(_carTotalFuelCost.text);
@@ -56,7 +60,7 @@ class _CarInfoState extends State<CarInfo> {
         'totalFuelCost': totalFuelCost,
       });
     });
-    saveData.setString('carInfo', json.encode(_carInfo));
+    saveToStorage(json.encode(_carInfo));
     widget.notifyParent(true);
   }
 
@@ -69,6 +73,7 @@ class _CarInfoState extends State<CarInfo> {
         _carInfo.update('mileage', (dynamic val) => val += mileage);
         _carInfo.update('currentMileage', (dynamic val) => val += mileage);
       });
+      saveToStorage(json.encode(_carInfo));
     }
   }
 
@@ -76,7 +81,9 @@ class _CarInfoState extends State<CarInfo> {
   Widget build(BuildContext context) {
     updateCarInfo(widget.newFuelling);
     return Container(
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: Card(
+        elevation: 8,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: (_carInfo != null && _carInfo.isNotEmpty)
