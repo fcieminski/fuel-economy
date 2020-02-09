@@ -41,10 +41,15 @@ class _HomeState extends State<Home> {
   void _addRecentFuelling(BuildContext context) async {
     await showModalBottomSheet(
         context: context, builder: (_) => AddRecentFuelling()).then((val) {
-      setState(() {
-        newFuelling = val;
-        distance = val['distance'];
-      });
+      if (val['distance'].isNotEmpty &&
+          val['amount'].isNotEmpty &&
+          val['totalCost'].isNotEmpty &&
+          val['time'] != null) {
+        setState(() {
+          newFuelling = val;
+          distance = val['distance'];
+        });
+      }
     });
   }
 

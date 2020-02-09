@@ -33,6 +33,18 @@ class _RecentFuellingState extends State<RecentFuelling> {
     }
   }
 
+  List get _recentFuelling {
+    if (_fuelling != null) {
+      _fuelling.sort((a, b) => b['time'].compareTo(a['time']));
+      return _fuelling.where((fuel) {
+        return DateTime.parse(fuel['time'])
+            .isAfter(DateTime.now().subtract(Duration(days: 30)));
+      }).toList();
+    } else {
+      return [];
+    }
+  }
+
   void checkFunction(fuelling) async {
     if (fuelling != null) {
       int distance = int.parse(fuelling['distance']);
@@ -65,11 +77,11 @@ class _RecentFuellingState extends State<RecentFuelling> {
   Widget build(BuildContext context) {
     checkFunction(widget._newFuelling);
     return Container(
-      child: (_fuelling != null && _fuelling.isNotEmpty)
+      child: (_recentFuelling != null && _recentFuelling.isNotEmpty)
           ? ListView(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              children: _fuelling.map((fuel) {
+              children: _recentFuelling.map((fuel) {
                 return Card(
                   child: Column(
                     children: <Widget>[
