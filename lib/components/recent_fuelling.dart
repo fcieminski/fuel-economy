@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RecentFuelling extends StatefulWidget {
-  final Map<String, dynamic> _newFuelling;
-  RecentFuelling(this._newFuelling);
+  final Map<String, dynamic> newFuelling;
+  final Function(bool) clearAddedFuelling;
+  RecentFuelling({this.newFuelling, this.clearAddedFuelling});
 
   @override
   _RecentFuellingState createState() => _RecentFuellingState();
@@ -69,13 +70,15 @@ class _RecentFuellingState extends State<RecentFuelling> {
   }
 
   Future saveAllFuellings() async {
+    print('save');
     final saveData = await SharedPreferences.getInstance();
     saveData.setString('fuelling', json.encode(_fuelling));
+    widget.clearAddedFuelling(null);
   }
 
   @override
   Widget build(BuildContext context) {
-    checkFunction(widget._newFuelling);
+    checkFunction(widget.newFuelling);
     return Container(
       child: (_recentFuelling != null && _recentFuelling.isNotEmpty)
           ? ListView(

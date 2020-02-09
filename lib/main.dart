@@ -59,6 +59,12 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void clearFuelling(childValue) {
+    setState(() {
+      newFuelling = childValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +102,10 @@ class _HomeState extends State<Home> {
         child: Column(
           children: <Widget>[
             CarInfo(newFuelling: newFuelling, notifyParent: updateCarInfo),
-            Expanded(child: RecentFuelling(newFuelling)),
+            Expanded(
+                child: RecentFuelling(
+                    newFuelling: newFuelling,
+                    clearAddedFuelling: clearFuelling)),
           ],
         ),
       ),

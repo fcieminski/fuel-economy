@@ -44,6 +44,8 @@ class _FuellingArchiveState extends State<FuellingArchive> {
           return false;
         }
       }).toList();
+    } else {
+      return [];
     }
   }
 
@@ -56,7 +58,9 @@ class _FuellingArchiveState extends State<FuellingArchive> {
           child: FlatButton(
         padding: const EdgeInsets.all(8),
         onPressed: () => {
-          _currentDate = DateTime.parse('2020-$newIndex-01'),
+          setState(() {
+            _currentDate = DateTime.parse('2020-$newIndex-01');
+          })
         },
         child: Text('${index + 1}'),
       ));
@@ -226,7 +230,7 @@ class _FuellingArchiveState extends State<FuellingArchive> {
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
-                              'Dodaj ostatnie tankowanie',
+                              'Archiwum jest puste',
                               style: TextStyle(
                                 fontSize: 24,
                               ),
