@@ -47,14 +47,21 @@ class _FuellingArchiveState extends State<FuellingArchive> {
     }
   }
 
-  // List<Widget> get monthButtons {
-  //   return List.generate(12, (index) {
-  //     final month = DateTime.now().subtract(Duration(month: index)).month;
-  //     return Container(
-  //         padding: const EdgeInsets.all(8),
-  //         child: FlatButton(onPressed: null, child: Text(month.toString())));
-  //   }).reversed.toList();
-  // }
+  List<Widget> get monthButtons {
+    return List.generate(12, (index) {
+      String newIndex = (index + 1).toString().length == 1
+          ? '0${index + 1}'
+          : (index + 1).toString();
+      return Container(
+          child: FlatButton(
+        padding: const EdgeInsets.all(8),
+        onPressed: () => {
+          _currentDate = DateTime.parse('2020-$newIndex-01'),
+        },
+        child: Text('${index + 1}'),
+      ));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
