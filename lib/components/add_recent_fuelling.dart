@@ -9,6 +9,8 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
   final distance = TextEditingController();
   final amount = TextEditingController();
   final totalCost = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String dateError;
   DateTime time;
 
   void submitForm() {
@@ -36,8 +38,9 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
+        key: _formKey,
         child: SingleChildScrollView(
-                  child: Column(
+          child: Column(
             children: <Widget>[
               TextFormField(
                 keyboardType: TextInputType.numberWithOptions(),
@@ -45,6 +48,14 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
                 decoration: const InputDecoration(
                   labelText: 'Ilość benzyny',
                 ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Wpisz dane';
+                  } else if (int.tryParse(value) == null) {
+                    return 'Pole akceptuje tylko liczby!';
+                  }
+                  return null;
+                },
                 onSaved: (String value) {
                   submitForm();
                 },
@@ -55,6 +66,14 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
                 decoration: const InputDecoration(
                   labelText: 'Koszt benzyny',
                 ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Wpisz dane';
+                  } else if (double.tryParse(value) == null) {
+                    return 'Pole akceptuje tylko liczby!';
+                  }
+                  return null;
+                },
                 onSaved: (String value) {
                   submitForm();
                 },
@@ -65,6 +84,14 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
                 decoration: const InputDecoration(
                   labelText: 'Przejechany dystans',
                 ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Wpisz dane';
+                  } else if (double.tryParse(value) == null) {
+                    return 'Pole akceptuje tylko liczby!';
+                  }
+                  return null;
+                },
                 onSaved: (String value) {
                   submitForm();
                 },
@@ -77,6 +104,11 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
                   _dataPicker(context);
                 },
               ),
+              if (dateError != null)
+                Text(
+                  dateError,
+                  style: TextStyle(color: Colors.red,),
+                )
             ],
           ),
         ),
@@ -85,7 +117,19 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
         child: Icon(
           Icons.add,
         ),
-        onPressed: submitForm,
+        onPressed: () {
+          if (_formKey.currentState.validate() && time != null) {
+            submitForm();
+          } else if (time is DateTime) {
+            setState(() {
+              dateError = null;
+            });
+          } else {
+            setState(() {
+              dateError = 'Wprowadź datę!';
+            });
+          }
+        },
       ),
     );
   }
