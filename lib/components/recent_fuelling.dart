@@ -105,8 +105,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Container(
-                              child: Text(
-                                  DateFormatter.date(fuel['time'])),
+                              child: Text(DateFormatter.date(fuel['time'])),
                             ),
                           ),
                         ],

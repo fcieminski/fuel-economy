@@ -22,11 +22,11 @@ class _ReplaceState extends State<Replace> {
       'isDone': false,
     }
   ];
-
   var partToReplace = TextEditingController();
   var kmToReplace = TextEditingController();
   var price = TextEditingController();
   var note = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void _submitReplace() {
     var part = partToReplace.text;
@@ -273,40 +273,69 @@ class _ReplaceState extends State<Replace> {
               child: Scaffold(
                 body: SingleChildScrollView(
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        new TextField(
+                        new TextFormField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Co jest do wymiany?',
                           ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Wpisz dane';
+                            }
+                            return null;
+                          },
                           maxLines: null,
                           controller: partToReplace,
                           keyboardType: TextInputType.text,
                         ),
-                        new TextField(
+                        new TextFormField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Ile km do wymiany?',
                           ),
                           maxLines: null,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Wpisz dane';
+                            } else if (int.tryParse(value) == null) {
+                              return 'Wprowadź liczbę!';
+                            }
+                            return null;
+                          },
                           controller: kmToReplace,
                           keyboardType: TextInputType.number,
                         ),
-                        new TextField(
+                        new TextFormField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Koszt wymiany',
                           ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Wpisz dane';
+                            } else if (double.tryParse(value) == null) {
+                              return 'Wprowadź liczbę!';
+                            }
+                            return null;
+                          },
                           maxLines: null,
                           controller: price,
                           keyboardType: TextInputType.number,
                         ),
-                        new TextField(
+                        new TextFormField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Notatka',
                           ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Wpisz dane';
+                            }
+                            return null;
+                          },
                           maxLines: null,
                           controller: note,
                           keyboardType: TextInputType.multiline,
@@ -316,8 +345,10 @@ class _ReplaceState extends State<Replace> {
                             'Zapisz',
                           ),
                           onPressed: () {
-                            _submitReplace();
-                            Navigator.pop(context);
+                            if (_formKey.currentState.validate()) {
+                              _submitReplace();
+                              Navigator.pop(context);
+                            }
                           },
                         )
                       ],

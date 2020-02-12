@@ -107,7 +107,9 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
               if (dateError != null)
                 Text(
                   dateError,
-                  style: TextStyle(color: Colors.red,),
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
                 )
             ],
           ),
