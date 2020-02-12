@@ -38,7 +38,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map<String, dynamic> newFuelling;
-  String distance;
   bool _isCarInfo = false;
   Map<String, Widget> menu = {
     'Archiwum spalania': FuellingArchive(),
@@ -50,13 +49,12 @@ class _HomeState extends State<Home> {
   void _addRecentFuelling(BuildContext context) async {
     await showModalBottomSheet(
         context: context, builder: (_) => AddRecentFuelling()).then((val) {
-      if (val['distance'].isNotEmpty &&
+      if (val != null &&
           val['amount'].isNotEmpty &&
           val['totalCost'].isNotEmpty &&
           val['time'] != null) {
         setState(() {
           newFuelling = val;
-          distance = val['distance'];
         });
       }
     });

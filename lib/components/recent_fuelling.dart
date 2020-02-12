@@ -71,7 +71,6 @@ class _RecentFuellingState extends State<RecentFuelling> {
   }
 
   Future saveAllFuellings() async {
-    print('save');
     final saveData = await SharedPreferences.getInstance();
     saveData.setString('fuelling', json.encode(_fuelling));
     widget.clearAddedFuelling(null);

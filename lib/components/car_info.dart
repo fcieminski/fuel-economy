@@ -19,6 +19,7 @@ class _CarInfoState extends State<CarInfo> {
   final _carCurrentMileage = TextEditingController();
   final _carMileage = TextEditingController();
   final _carTotalFuelCost = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> _carInfo;
 
   @override
@@ -77,6 +78,13 @@ class _CarInfoState extends State<CarInfo> {
     }
   }
 
+  void _removeCurrentCar() async {
+    setState(() {
+      _carInfo = {};
+    });
+    saveToStorage(json.encode(_carInfo));
+  }
+
   @override
   Widget build(BuildContext context) {
     updateCarInfo(widget.newFuelling);
@@ -90,6 +98,7 @@ class _CarInfoState extends State<CarInfo> {
               ? Column(
                   children: <Widget>[
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Chip(
                           labelStyle: TextStyle(
@@ -99,6 +108,54 @@ class _CarInfoState extends State<CarInfo> {
                           label: Text(
                               '${_carInfo['maker']} ${_carInfo['model']} ${_carInfo['engine']}'),
                         ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                          ),
+                          onPressed: () => {
+                            showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Uwaga',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    titlePadding: EdgeInsets.all(10),
+                                    content: Text(
+                                      'Na pewno chcesz usunąć samochód?',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                          onPressed: () => {
+                                                _removeCurrentCar(),
+                                                Navigator.pop(context),
+                                              },
+                                          child: Text(
+                                            'Tak',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          )),
+                                      FlatButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            'Nie',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          ))
+                                    ],
+                                  );
+                                })
+                          },
+                        )
                       ],
                     ),
                     Container(
@@ -222,6 +279,7 @@ class _CarInfoState extends State<CarInfo> {
                               child: Scaffold(
                                 body: SingleChildScrollView(
                                   child: Form(
+                                    key: _formKey,
                                     child: Column(
                                       children: <Widget>[
                                         TextFormField(
@@ -229,18 +287,39 @@ class _CarInfoState extends State<CarInfo> {
                                           decoration: const InputDecoration(
                                             labelText: 'Marka',
                                           ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Wpisz dane';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         TextFormField(
                                           controller: _carModel,
                                           decoration: const InputDecoration(
                                             labelText: 'Model',
                                           ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Wpisz dane';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         TextFormField(
                                           controller: _carEngine,
                                           decoration: const InputDecoration(
                                             labelText: 'Silnik',
                                           ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Wpisz dane';
+                                            } else if (double.tryParse(value) ==
+                                                null) {
+                                              return 'Pole akceptuje tylko liczby!';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         TextFormField(
                                           controller: _carCurrentMileage,
@@ -250,6 +329,15 @@ class _CarInfoState extends State<CarInfo> {
                                             labelText:
                                                 'Pokonana odległość od zakupu',
                                           ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Wpisz dane';
+                                            } else if (int.tryParse(value) ==
+                                                null) {
+                                              return 'Pole akceptuje tylko liczby!';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         TextFormField(
                                           controller: _carMileage,
@@ -258,6 +346,15 @@ class _CarInfoState extends State<CarInfo> {
                                           decoration: const InputDecoration(
                                             labelText: 'Łączny przebieg',
                                           ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Wpisz dane';
+                                            } else if (int.tryParse(value) ==
+                                                null) {
+                                              return 'Pole akceptuje tylko liczby!';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         TextFormField(
                                           controller: _carTotalFuelCost,
@@ -267,14 +364,26 @@ class _CarInfoState extends State<CarInfo> {
                                             labelText:
                                                 'Dotychczas wydana kwota',
                                           ),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Wpisz dane';
+                                            } else if (double.tryParse(value) ==
+                                                null) {
+                                              return 'Pole akceptuje tylko liczby!';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         FlatButton(
                                           child: Text(
                                             'Zapisz',
                                           ),
                                           onPressed: () {
-                                            _submitForm();
-                                            Navigator.pop(context);
+                                            if (_formKey.currentState
+                                                .validate()) {
+                                              _submitForm();
+                                              Navigator.pop(context);
+                                            }
                                           },
                                         )
                                       ],
