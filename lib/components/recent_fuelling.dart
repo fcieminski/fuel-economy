@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fuel_economy/utils/date_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RecentFuelling extends StatefulWidget {
@@ -106,7 +107,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Container(
                               child: Text(
-                                  '${fuel['time'].toString().substring(0, 10)}'),
+                                  DateFormatter.date(fuel['time'])),
                             ),
                           ),
                         ],

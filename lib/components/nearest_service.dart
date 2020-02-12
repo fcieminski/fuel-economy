@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fuel_economy/utils/date_formatter.dart';
 
 class NearestService extends StatefulWidget {
   @override
@@ -74,7 +75,7 @@ class _NearestServiceState extends State<NearestService> {
       setState(() {
         service = {
           'last': last,
-          'nearest': new DateTime(last.year + 1, last.month, last.day + 1)
+          'nearest':  new DateTime(last.year + 1, last.month, last.day + 1)
         };
         nextService = service['nearest'].difference(new DateTime.now()).inDays;
       });
@@ -102,7 +103,7 @@ class _NearestServiceState extends State<NearestService> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Ostatni przegląd: ${service['last'].toString().substring(0, 10)}',
+                                  'Ostatni przegląd: ${DateFormatter.date(service['last'].toString())}',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -117,7 +118,7 @@ class _NearestServiceState extends State<NearestService> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Najbliższy przegląd: ${service['nearest'].toString().substring(0, 10)}',
+                              'Najbliższy przegląd: ${DateFormatter.date(service['nearest'].toString())}',
                               style: TextStyle(
                                 fontSize: 24,
                               ),

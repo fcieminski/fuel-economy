@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fuel_economy/utils/date_formatter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Notes extends StatefulWidget {
@@ -85,7 +86,7 @@ class _NotesState extends State<Notes> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text('${element['date']}'),
+                              Text(DateFormatter.date(element['date'])),
                               Row(
                                 children: <Widget>[
                                   IconButton(

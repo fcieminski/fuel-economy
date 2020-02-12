@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fuel_economy/utils/date_formatter.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FuellingArchive extends StatefulWidget {
@@ -23,7 +25,7 @@ class _FuellingArchiveState extends State<FuellingArchive> {
       Iterable jsonData = json.decode(saveData.getString('fuelling'));
       setState(() {
         _fuelling = jsonData;
-        _currentDate = DateTime.parse('2020-01-09');
+        _currentDate = new DateTime.now();
       });
     } else {
       setState(() {
@@ -50,7 +52,8 @@ class _FuellingArchiveState extends State<FuellingArchive> {
   }
 
   List<Widget> get monthButtons {
-    return List.generate(12, (index) {
+    int passedMonths = DateTime.now().month;
+    return List.generate(passedMonths, (index) {
       String newIndex = (index + 1).toString().length == 1
           ? '0${index + 1}'
           : (index + 1).toString();
@@ -62,7 +65,7 @@ class _FuellingArchiveState extends State<FuellingArchive> {
             _currentDate = DateTime.parse('2020-$newIndex-01');
           })
         },
-        child: Text('${index + 1}'),
+        child: Text(new DateFormat.MMMM('pl').format(DateTime.parse('2020-$newIndex-01'))),
       ));
     });
   }
@@ -110,7 +113,7 @@ class _FuellingArchiveState extends State<FuellingArchive> {
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: Container(
                                       child: Text(
-                                          '${fuel['time'].toString().substring(0, 10)}'),
+                                          DateFormatter.date(fuel['time'])),
                                     ),
                                   ),
                                 ],
