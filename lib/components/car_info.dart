@@ -100,13 +100,19 @@ class _CarInfoState extends State<CarInfo> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Chip(
-                          labelStyle: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
+                        Flexible(
+                          child: Chip(
+                            labelStyle: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            label: Text(
+                              '${_carInfo['maker']} ${_carInfo['model']} ${_carInfo['engine']}',
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                            ),
                           ),
-                          label: Text(
-                              '${_carInfo['maker']} ${_carInfo['model']} ${_carInfo['engine']}'),
                         ),
                         IconButton(
                           icon: Icon(
@@ -269,131 +275,159 @@ class _CarInfoState extends State<CarInfo> {
                   ],
                 )
               : Container(
-                  child: FlatButton(
-                    child: Text('dodaj samochód'),
-                    onPressed: () => {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (_) {
-                            return Container(
-                              child: Scaffold(
-                                body: SingleChildScrollView(
-                                  child: Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      children: <Widget>[
-                                        TextFormField(
-                                          controller: _carMaker,
-                                          decoration: const InputDecoration(
-                                            labelText: 'Marka',
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () => {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (_) {
+                                  return Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: Scaffold(
+                                      body: SingleChildScrollView(
+                                        child: Form(
+                                          key: _formKey,
+                                          child: Column(
+                                            children: <Widget>[
+                                              TextFormField(
+                                                controller: _carMaker,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Marka',
+                                                ),
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Wpisz dane';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              TextFormField(
+                                                controller: _carModel,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Model',
+                                                ),
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Wpisz dane';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              TextFormField(
+                                                controller: _carEngine,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Silnik',
+                                                ),
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Wpisz dane';
+                                                  } else if (double.tryParse(
+                                                          value) ==
+                                                      null) {
+                                                    return 'Pole akceptuje tylko liczby!';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              TextFormField(
+                                                controller: _carCurrentMileage,
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(),
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText:
+                                                      'Pokonana odległość od zakupu',
+                                                ),
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Wpisz dane';
+                                                  } else if (int.tryParse(
+                                                          value) ==
+                                                      null) {
+                                                    return 'Pole akceptuje tylko liczby!';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              TextFormField(
+                                                controller: _carMileage,
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(),
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Łączny przebieg',
+                                                ),
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Wpisz dane';
+                                                  } else if (int.tryParse(
+                                                          value) ==
+                                                      null) {
+                                                    return 'Pole akceptuje tylko liczby!';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              TextFormField(
+                                                controller: _carTotalFuelCost,
+                                                keyboardType: TextInputType
+                                                    .numberWithOptions(),
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText:
+                                                      'Dotychczas wydana kwota',
+                                                ),
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Wpisz dane';
+                                                  } else if (double.tryParse(
+                                                          value) ==
+                                                      null) {
+                                                    return 'Pole akceptuje tylko liczby!';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: double.infinity,
+                                                child: RaisedButton(
+                                                  child: Text(
+                                                    'Zapisz',
+                                                  ),
+                                                  onPressed: () {
+                                                    if (_formKey.currentState
+                                                        .validate()) {
+                                                      _submitForm();
+                                                      Navigator.pop(context);
+                                                    }
+                                                  },
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Wpisz dane';
-                                            }
-                                            return null;
-                                          },
                                         ),
-                                        TextFormField(
-                                          controller: _carModel,
-                                          decoration: const InputDecoration(
-                                            labelText: 'Model',
-                                          ),
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Wpisz dane';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        TextFormField(
-                                          controller: _carEngine,
-                                          decoration: const InputDecoration(
-                                            labelText: 'Silnik',
-                                          ),
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Wpisz dane';
-                                            } else if (double.tryParse(value) ==
-                                                null) {
-                                              return 'Pole akceptuje tylko liczby!';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        TextFormField(
-                                          controller: _carCurrentMileage,
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(),
-                                          decoration: const InputDecoration(
-                                            labelText:
-                                                'Pokonana odległość od zakupu',
-                                          ),
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Wpisz dane';
-                                            } else if (int.tryParse(value) ==
-                                                null) {
-                                              return 'Pole akceptuje tylko liczby!';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        TextFormField(
-                                          controller: _carMileage,
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(),
-                                          decoration: const InputDecoration(
-                                            labelText: 'Łączny przebieg',
-                                          ),
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Wpisz dane';
-                                            } else if (int.tryParse(value) ==
-                                                null) {
-                                              return 'Pole akceptuje tylko liczby!';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        TextFormField(
-                                          controller: _carTotalFuelCost,
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(),
-                                          decoration: const InputDecoration(
-                                            labelText:
-                                                'Dotychczas wydana kwota',
-                                          ),
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Wpisz dane';
-                                            } else if (double.tryParse(value) ==
-                                                null) {
-                                              return 'Pole akceptuje tylko liczby!';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        FlatButton(
-                                          child: Text(
-                                            'Zapisz',
-                                          ),
-                                          onPressed: () {
-                                            if (_formKey.currentState
-                                                .validate()) {
-                                              _submitForm();
-                                              Navigator.pop(context);
-                                            }
-                                          },
-                                        )
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          })
-                    },
+                                  );
+                                })
+                          },
+                        ),
+                        Text(
+                          'Dodaj swój samochód',
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
         ),

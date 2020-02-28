@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_economy/utils/date_formatter.dart';
 
 class AddRecentFuelling extends StatefulWidget {
   @override
@@ -37,101 +38,114 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: _formKey,
+      body: Container(
+        padding: EdgeInsets.all(16),
         child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.numberWithOptions(),
-                controller: amount,
-                decoration: const InputDecoration(
-                  labelText: 'Ilość benzyny',
+          child: new Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(),
+                  controller: amount,
+                  decoration: const InputDecoration(
+                    labelText: 'Ilość benzyny',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Wpisz dane';
+                    } else if (int.tryParse(value) == null) {
+                      return 'Pole akceptuje tylko liczby!';
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    submitForm();
+                  },
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Wpisz dane';
-                  } else if (int.tryParse(value) == null) {
-                    return 'Pole akceptuje tylko liczby!';
-                  }
-                  return null;
-                },
-                onSaved: (String value) {
-                  submitForm();
-                },
-              ),
-              TextFormField(
-                keyboardType: TextInputType.numberWithOptions(),
-                controller: totalCost,
-                decoration: const InputDecoration(
-                  labelText: 'Koszt benzyny',
+                TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(),
+                  controller: totalCost,
+                  decoration: const InputDecoration(
+                    labelText: 'Koszt benzyny',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Wpisz dane';
+                    } else if (double.tryParse(value) == null) {
+                      return 'Pole akceptuje tylko liczby!';
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    submitForm();
+                  },
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Wpisz dane';
-                  } else if (double.tryParse(value) == null) {
-                    return 'Pole akceptuje tylko liczby!';
-                  }
-                  return null;
-                },
-                onSaved: (String value) {
-                  submitForm();
-                },
-              ),
-              TextFormField(
-                keyboardType: TextInputType.numberWithOptions(),
-                controller: distance,
-                decoration: const InputDecoration(
-                  labelText: 'Przejechany dystans',
+                TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(),
+                  controller: distance,
+                  decoration: const InputDecoration(
+                    labelText: 'Przejechany dystans',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Wpisz dane';
+                    } else if (double.tryParse(value) == null) {
+                      return 'Pole akceptuje tylko liczby!';
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    submitForm();
+                  },
                 ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Wpisz dane';
-                  } else if (double.tryParse(value) == null) {
-                    return 'Pole akceptuje tylko liczby!';
-                  }
-                  return null;
-                },
-                onSaved: (String value) {
-                  submitForm();
-                },
-              ),
-              FlatButton(
-                child: Text(
-                  'Wybierz datę',
+                FlatButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.date_range),
+                      Padding(padding: EdgeInsets.only(right: 8)),
+                      Text(time is DateTime
+                          ? DateFormatter.date(time.toString())
+                          : "Dodaj datę"),
+                    ],
+                  ),
+                  onPressed: () {
+                    _dataPicker(context);
+                  },
                 ),
-                onPressed: () {
-                  _dataPicker(context);
-                },
-              ),
-              if (dateError != null)
-                Text(
-                  dateError,
-                  style: TextStyle(
-                    color: Colors.red,
+                if (dateError != null)
+                  Text(
+                    dateError,
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                SizedBox(
+                  width: double.infinity,
+                  child: RaisedButton(
+                    child: Text(
+                      'Zapisz',
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState.validate() && time != null) {
+                        submitForm();
+                      } else if (time is DateTime) {
+                        setState(() {
+                          dateError = null;
+                        });
+                      } else {
+                        setState(() {
+                          dateError = 'Wprowadź datę!';
+                        });
+                      }
+                    },
                   ),
                 )
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          if (_formKey.currentState.validate() && time != null) {
-            submitForm();
-          } else if (time is DateTime) {
-            setState(() {
-              dateError = null;
-            });
-          } else {
-            setState(() {
-              dateError = 'Wprowadź datę!';
-            });
-          }
-        },
       ),
     );
   }
