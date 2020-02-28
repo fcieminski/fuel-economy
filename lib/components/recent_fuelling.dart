@@ -8,7 +8,8 @@ class RecentFuelling extends StatefulWidget {
   final Map<String, dynamic> newFuelling;
   final Function(bool) clearAddedFuelling;
   final bool clearAllFuelling;
-  RecentFuelling({this.newFuelling, this.clearAddedFuelling, this.clearAllFuelling});
+  RecentFuelling(
+      {this.newFuelling, this.clearAddedFuelling, this.clearAllFuelling});
 
   @override
   _RecentFuellingState createState() => _RecentFuellingState();
@@ -59,7 +60,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
         'time': fuelling['time'].toString(),
         'distance': distance,
         'amount': liters,
-        'average': num.parse((liters * 100 / distance ).toStringAsFixed(2)),
+        'average': num.parse((liters * 100 / distance).toStringAsFixed(2)),
         'totalCost': totalCost,
         'fuelCost': num.parse((totalCost / liters).toStringAsFixed(2)),
         'kmCost': num.parse((totalCost / distance).toStringAsFixed(2))
@@ -90,7 +91,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
   @override
   Widget build(BuildContext context) {
     addNewRecentFuelling(widget.newFuelling);
-    if(widget.clearAllFuelling) removeAllFuelling();
+    if (widget.clearAllFuelling) removeAllFuelling();
     return Container(
       child: (_recentFuelling != null && _recentFuelling.isNotEmpty)
           ? ListView(
@@ -121,8 +122,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
                                 Text(DateFormatter.date(fuel['time'])),
                                 IconButton(
                                     icon: Icon(Icons.delete),
-                                    onPressed: () => _removeFuelling(fuel)
-                                    )
+                                    onPressed: () => _removeFuelling(fuel))
                               ],
                             ),
                           ),

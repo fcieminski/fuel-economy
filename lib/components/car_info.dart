@@ -70,13 +70,10 @@ class _CarInfoState extends State<CarInfo> {
     if (newFuelling != null) {
       double totalCost = double.parse(newFuelling['totalCost']);
       double mileage = double.parse(newFuelling['distance']);
-      // double average = double.parse(newFuelling['average']);
-      // print(average);
       setState(() {
         _carInfo.update('totalFuelCost', (dynamic val) => val += totalCost);
         _carInfo.update('mileage', (dynamic val) => val += mileage);
         _carInfo.update('currentMileage', (dynamic val) => val += mileage);
-        // _carInfo.update('average', (dynamic val) => val += average);
       });
       saveToStorage(json.encode(_carInfo));
     }
@@ -243,38 +240,6 @@ class _CarInfoState extends State<CarInfo> {
                           ),
                           Row(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(Icons.local_gas_station),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 8),
-                                          ),
-                                          Text(
-                                            'Średnie spalanie',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      _carInfo['average'].toString(),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Replace extends StatefulWidget {
   @override
@@ -6,7 +9,7 @@ class Replace extends StatefulWidget {
 }
 
 class _ReplaceState extends State<Replace> {
-  List<Map<String, dynamic>> replace = [
+  List replace = [
     {
       'item': 'Olej silnikowy',
       'when': 10000,
@@ -28,6 +31,30 @@ class _ReplaceState extends State<Replace> {
   var note = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future getUserData() async {
+    final saveData = await SharedPreferences.getInstance();
+    if (saveData.getString('replaceInfo') != null) {
+      setState(() {
+        replace = json.decode(saveData.getString('replaceInfo'));
+      });
+    } else {
+      setState(() {
+        replace = [];
+      });
+    }
+  }
+
+  Future saveToStorage(data) async {
+    final saveData = await SharedPreferences.getInstance();
+    saveData.setString('replaceInfo', data);
+  }
+
   void _submitReplace() {
     var part = partToReplace.text;
     var km = num.parse(kmToReplace.text);
@@ -44,18 +71,21 @@ class _ReplaceState extends State<Replace> {
         });
       });
     }
+    saveToStorage(json.encode(replace));
   }
 
   void _partReplaced(element) {
     setState(() {
       element['isDone'] = true;
     });
+    saveToStorage(json.encode(replace));
   }
 
   void _removeReplacementInfo(element) {
     setState(() {
       replace.remove(element);
     });
+        saveToStorage(json.encode(replace));
   }
 
   @override
@@ -270,6 +300,7 @@ class _ReplaceState extends State<Replace> {
           context: context,
           builder: (_) {
             return Container(
+              padding: EdgeInsets.all(16),
               child: Scaffold(
                 body: SingleChildScrollView(
                   child: Form(
@@ -278,6 +309,7 @@ class _ReplaceState extends State<Replace> {
                       children: <Widget>[
                         new TextFormField(
                           decoration: InputDecoration(
+                            labelText: 'Co jest do wymiany?',
                             border: InputBorder.none,
                             hintText: 'Co jest do wymiany?',
                           ),
@@ -293,6 +325,7 @@ class _ReplaceState extends State<Replace> {
                         ),
                         new TextFormField(
                           decoration: InputDecoration(
+                            labelText: 'Ile km do wymiany?',
                             border: InputBorder.none,
                             hintText: 'Ile km do wymiany?',
                           ),
@@ -310,6 +343,7 @@ class _ReplaceState extends State<Replace> {
                         ),
                         new TextFormField(
                           decoration: InputDecoration(
+                            labelText: 'Koszt wymiany',
                             border: InputBorder.none,
                             hintText: 'Koszt wymiany',
                           ),
@@ -328,28 +362,26 @@ class _ReplaceState extends State<Replace> {
                         new TextFormField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
+                            labelText: 'Notatka',
                             hintText: 'Notatka',
                           ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Wpisz dane';
-                            }
-                            return null;
-                          },
                           maxLines: null,
                           controller: note,
                           keyboardType: TextInputType.multiline,
                         ),
-                        FlatButton(
-                          child: Text(
-                            'Zapisz',
+                        SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                            child: Text(
+                              'Zapisz',
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                _submitReplace();
+                                Navigator.pop(context);
+                              }
+                            },
                           ),
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _submitReplace();
-                              Navigator.pop(context);
-                            }
-                          },
                         )
                       ],
                     ),
