@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RecentFuelling extends StatefulWidget {
   final Map<String, dynamic> newFuelling;
   final Function(bool) clearAddedFuelling;
-  RecentFuelling({this.newFuelling, this.clearAddedFuelling});
+  final bool clearAllFuelling;
+  RecentFuelling({this.newFuelling, this.clearAddedFuelling, this.clearAllFuelling});
 
   @override
   _RecentFuellingState createState() => _RecentFuellingState();
@@ -47,7 +48,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
     }
   }
 
-  void checkFunction(fuelling) async {
+  void addNewRecentFuelling(fuelling) async {
     if (fuelling != null) {
       int distance = int.parse(fuelling['distance']);
       double liters = double.parse(fuelling['amount']);
@@ -58,7 +59,7 @@ class _RecentFuellingState extends State<RecentFuelling> {
         'time': fuelling['time'].toString(),
         'distance': distance,
         'amount': liters,
-        'average': num.parse((distance / liters).toStringAsFixed(2)),
+        'average': num.parse((liters * 100 / distance ).toStringAsFixed(2)),
         'totalCost': totalCost,
         'fuelCost': num.parse((totalCost / liters).toStringAsFixed(2)),
         'kmCost': num.parse((totalCost / distance).toStringAsFixed(2))
@@ -76,9 +77,20 @@ class _RecentFuellingState extends State<RecentFuelling> {
     widget.clearAddedFuelling(null);
   }
 
+  void _removeFuelling(fuel) async {
+    _fuelling.remove(fuel);
+    await saveAllFuellings();
+  }
+
+  void removeAllFuelling() async {
+    _fuelling = [];
+    await saveAllFuellings();
+  }
+
   @override
   Widget build(BuildContext context) {
-    checkFunction(widget.newFuelling);
+    addNewRecentFuelling(widget.newFuelling);
+    if(widget.clearAllFuelling) removeAllFuelling();
     return Container(
       child: (_recentFuelling != null && _recentFuelling.isNotEmpty)
           ? ListView(
@@ -104,8 +116,14 @@ class _RecentFuellingState extends State<RecentFuelling> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: Container(
-                              child: Text(DateFormatter.date(fuel['time'])),
+                            child: Row(
+                              children: <Widget>[
+                                Text(DateFormatter.date(fuel['time'])),
+                                IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () => _removeFuelling(fuel)
+                                    )
+                              ],
                             ),
                           ),
                         ],

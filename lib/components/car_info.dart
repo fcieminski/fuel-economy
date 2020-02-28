@@ -59,6 +59,7 @@ class _CarInfoState extends State<CarInfo> {
         'currentMileage': currentMileage,
         'mileage': mileage,
         'totalFuelCost': totalFuelCost,
+        'average': 0,
       });
     });
     saveToStorage(json.encode(_carInfo));
@@ -69,10 +70,13 @@ class _CarInfoState extends State<CarInfo> {
     if (newFuelling != null) {
       double totalCost = double.parse(newFuelling['totalCost']);
       double mileage = double.parse(newFuelling['distance']);
+      // double average = double.parse(newFuelling['average']);
+      // print(average);
       setState(() {
         _carInfo.update('totalFuelCost', (dynamic val) => val += totalCost);
         _carInfo.update('mileage', (dynamic val) => val += mileage);
         _carInfo.update('currentMileage', (dynamic val) => val += mileage);
+        // _carInfo.update('average', (dynamic val) => val += average);
       });
       saveToStorage(json.encode(_carInfo));
     }
@@ -82,7 +86,8 @@ class _CarInfoState extends State<CarInfo> {
     setState(() {
       _carInfo = {};
     });
-    saveToStorage(json.encode(_carInfo));
+    saveToStorage(null);
+    widget.notifyParent(false);
   }
 
   @override
@@ -138,25 +143,26 @@ class _CarInfoState extends State<CarInfo> {
                                     ),
                                     actions: <Widget>[
                                       FlatButton(
-                                          onPressed: () => {
-                                                _removeCurrentCar(),
-                                                Navigator.pop(context),
-                                              },
-                                          child: Text(
-                                            'Tak',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          )),
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text(
+                                          'Nie',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
                                       FlatButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text(
-                                            'Nie',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ))
+                                        onPressed: () => {
+                                          _removeCurrentCar(),
+                                          Navigator.pop(context),
+                                        },
+                                        child: Text(
+                                          'Tak',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   );
                                 })
@@ -176,11 +182,20 @@ class _CarInfoState extends State<CarInfo> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
-                                      child: Text(
-                                        'Łączny przebieg',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.location_on),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 8),
+                                          ),
+                                          Text(
+                                            'Pokonana odległość',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Text(
@@ -199,11 +214,20 @@ class _CarInfoState extends State<CarInfo> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
-                                      child: Text(
-                                        'Pokonana odległość',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.location_on),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 8),
+                                          ),
+                                          Text(
+                                            'Łączny przebieg',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Text(
@@ -226,17 +250,24 @@ class _CarInfoState extends State<CarInfo> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
-                                      child: Text(
-                                        'Średnie spalanie',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.local_gas_station),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 8),
+                                          ),
+                                          Text(
+                                            'Średnie spalanie',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Text(
-                                      (_carInfo['totalFuelCost'] /
-                                              _carInfo['currentMileage'])
-                                          .toStringAsFixed(2),
+                                      _carInfo['average'].toString(),
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -251,11 +282,20 @@ class _CarInfoState extends State<CarInfo> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
-                                      child: Text(
-                                        'Łączny koszt',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.attach_money),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 8),
+                                          ),
+                                          Text(
+                                            'Łączny koszt',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Text(

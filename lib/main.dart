@@ -39,6 +39,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map<String, dynamic> newFuelling;
   bool _isCarInfo = false;
+  bool _clearAllFuelling = false;
   Map<String, Widget> menu = {
     'Archiwum spalania': FuellingArchive(),
     'Najbliższe wymiany': Replace(),
@@ -63,6 +64,7 @@ class _HomeState extends State<Home> {
   void updateCarInfo(bool childValue) {
     setState(() {
       _isCarInfo = childValue;
+      _clearAllFuelling = !childValue;
     });
   }
 
@@ -112,7 +114,8 @@ class _HomeState extends State<Home> {
             Expanded(
                 child: RecentFuelling(
                     newFuelling: newFuelling,
-                    clearAddedFuelling: clearFuelling)),
+                    clearAddedFuelling: clearFuelling,
+                    clearAllFuelling: _clearAllFuelling )),
           ],
         ),
       ),
