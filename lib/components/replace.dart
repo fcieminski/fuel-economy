@@ -85,7 +85,7 @@ class _ReplaceState extends State<Replace> {
     setState(() {
       replace.remove(element);
     });
-        saveToStorage(json.encode(replace));
+    saveToStorage(json.encode(replace));
   }
 
   @override
