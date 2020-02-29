@@ -51,7 +51,9 @@ class _HomeState extends State<Home> {
     await showModalBottomSheet(
         context: context, builder: (_) => AddRecentFuelling()).then((val) {
       if (val != null &&
+          val['amount'] != null &&
           val['amount'].isNotEmpty &&
+          val['totalCost'] != null &&
           val['totalCost'].isNotEmpty &&
           val['time'] != null) {
         setState(() {
@@ -115,7 +117,7 @@ class _HomeState extends State<Home> {
                 child: RecentFuelling(
                     newFuelling: newFuelling,
                     clearAddedFuelling: clearFuelling,
-                    clearAllFuelling: _clearAllFuelling )),
+                    clearAllFuelling: _clearAllFuelling)),
           ],
         ),
       ),

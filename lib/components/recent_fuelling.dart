@@ -128,6 +128,10 @@ class _RecentFuellingState extends State<RecentFuelling> {
                           ),
                         ],
                       ),
+                      Divider(
+                        color: Colors.black12,
+                        height: 1,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Table(

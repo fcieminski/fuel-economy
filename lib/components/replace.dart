@@ -14,6 +14,7 @@ class _ReplaceState extends State<Replace> {
   var kmToReplace = TextEditingController();
   var price = TextEditingController();
   var note = TextEditingController();
+  var startEditing = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -73,13 +74,21 @@ class _ReplaceState extends State<Replace> {
     saveToStorage(json.encode(replace));
   }
 
+  void _saveNote(element) {
+    setState(() {
+      element['note'] = note.text;
+      startEditing = false;
+    });
+    saveToStorage(json.encode(replace));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
         title: Text('Najbliższe wymiany'),
       ),
-      body: (replace.isNotEmpty)
+      body: (replace != null && replace.isNotEmpty)
           ? new ListView(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
@@ -118,24 +127,65 @@ class _ReplaceState extends State<Replace> {
                                   children: <Widget>[
                                     IconButton(
                                       icon: Icon(Icons.note),
-                                      onPressed: () => showDialog(
+                                      onPressed: () async => await showDialog(
                                           context: context,
-                                          builder: (_) {
-                                            return SimpleDialog(
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16),
-                                                    child: Text(
-                                                      '${element['note']}',
-                                                      style: TextStyle(
-                                                        fontSize: 20,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return SimpleDialog(children: <
+                                                  Widget>[
+                                                Container(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: <Widget>[
+                                                      IconButton(
+                                                        icon: Icon(Icons.edit),
+                                                        onPressed: () =>
+                                                            setState(() {
+                                                          startEditing = true;
+                                                        }),
                                                       ),
-                                                    ),
+                                                      IconButton(
+                                                          icon: Icon(
+                                                              Icons.delete),
+                                                          onPressed: () => {
+                                                                setState(() {
+                                                                  note.clear();
+                                                                  element['note'] =
+                                                                      null;
+                                                                })
+                                                              }),
+                                                    ],
                                                   ),
-                                                ]);
-                                          }),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(16),
+                                                  child: startEditing
+                                                      ? TextFormField(
+                                                          controller: note,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            labelText:
+                                                                'Notatka',
+                                                          ),
+                                                        )
+                                                      : Text(
+                                                          element['note'] !=
+                                                                      null &&
+                                                                  element['note']
+                                                                      .isNotEmpty
+                                                              ? element['note']
+                                                              : 'Brak notatki',
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                          ),
+                                                        ),
+                                                ),
+                                              ]);
+                                            });
+                                          }).then((val) => _saveNote(element)),
                                     ),
                                     IconButton(
                                       icon: Icon(Icons.delete),
