@@ -101,32 +101,35 @@ class _RecentFuellingState extends State<RecentFuelling> {
                 return Card(
                   child: Column(
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Chip(
-                              labelStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
+                      Container(
+                        color: Colors.teal[50],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Chip(
+                                labelStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                                label: Text(
+                                    'średnie spalanie: ${fuel['average']} l'),
                               ),
-                              label: Text(
-                                  'średnie spalanie: ${fuel['average']} l'),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(DateFormatter.date(fuel['time'])),
-                                IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () => _removeFuelling(fuel))
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(DateFormatter.date(fuel['time'])),
+                                  IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () => _removeFuelling(fuel))
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Divider(
                         color: Colors.black12,

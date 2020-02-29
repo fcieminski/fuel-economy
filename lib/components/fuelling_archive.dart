@@ -81,6 +81,7 @@ class _FuellingArchiveState extends State<FuellingArchive> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(8),
+              color: Colors.teal[200],
               height: 50,
               child: ListView(
                   scrollDirection: Axis.horizontal, children: monthButtons),
@@ -94,29 +95,32 @@ class _FuellingArchiveState extends State<FuellingArchive> {
                         return Card(
                           child: Column(
                             children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Chip(
-                                      labelStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
+                              Container(
+                                 color: Colors.teal[50],
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Chip(
+                                        labelStyle: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                        label: Text(
+                                            'średnie spalanie: ${fuel['average']} l'),
                                       ),
-                                      label: Text(
-                                          'średnie spalanie: ${fuel['average']} l'),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Container(
-                                      child: Text(
-                                          DateFormatter.date(fuel['time'])),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: Container(
+                                        child: Text(
+                                            DateFormatter.date(fuel['time'])),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),

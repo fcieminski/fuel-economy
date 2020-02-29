@@ -250,7 +250,7 @@ class _ReplaceState extends State<Replace> {
                             height: 1,
                           ),
                           Padding(
-                           padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -408,6 +408,7 @@ class _ReplaceState extends State<Replace> {
                         SizedBox(
                           width: double.infinity,
                           child: RaisedButton(
+                            color: Colors.teal[200],
                             child: Text(
                               'Zapisz',
                             ),

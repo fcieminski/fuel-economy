@@ -78,7 +78,7 @@ class _NotesState extends State<Notes> {
               if (notes != null && notes.isNotEmpty)
                 ...notes.map(
                   (element) => Container(
-                      padding: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: Card(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,11 +111,13 @@ class _NotesState extends State<Notes> {
                                                       maxLines: null,
                                                       controller: editedNote,
                                                       keyboardType:
-                                                          TextInputType.multiline,
+                                                          TextInputType
+                                                              .multiline,
                                                     ),
                                                     SizedBox(
                                                       width: double.infinity,
                                                       child: RaisedButton(
+                                                        color: Colors.teal[200],
                                                         child: Text(
                                                           'Zapisz',
                                                         ),
@@ -124,7 +126,8 @@ class _NotesState extends State<Notes> {
                                                               notes.indexOf(
                                                                   element),
                                                               editedNote.text);
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                       ),
                                                     )
@@ -149,7 +152,8 @@ class _NotesState extends State<Notes> {
                                                     fontSize: 18,
                                                   ),
                                                 ),
-                                                titlePadding: EdgeInsets.all(10),
+                                                titlePadding:
+                                                    EdgeInsets.all(10),
                                                 content: Text(
                                                   'Na pewno chcesz usunąć notatkę?',
                                                   style: TextStyle(
@@ -254,6 +258,7 @@ class _NotesState extends State<Notes> {
                           SizedBox(
                             width: double.infinity,
                             child: RaisedButton(
+                              color: Colors.teal[200],
                               child: Text(
                                 'Zapisz',
                               ),

@@ -94,80 +94,85 @@ class _CarInfoState extends State<CarInfo> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Card(
         elevation: 8,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+        child: Container(
           child: (_carInfo != null && _carInfo.isNotEmpty)
               ? Column(
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(
-                          child: Chip(
-                            labelStyle: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                            label: Text(
-                              '${_carInfo['maker']} ${_carInfo['model']} ${_carInfo['engine']}',
-                              overflow: TextOverflow.fade,
-                              maxLines: 1,
-                              softWrap: false,
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      color: Colors.teal[50],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            child: Chip(
+                              labelStyle: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                              label: Text(
+                                '${_carInfo['maker']} ${_carInfo['model']} ${_carInfo['engine']}',
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                softWrap: false,
+                              ),
                             ),
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                          ),
-                          onPressed: () => {
-                            showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      'Uwaga',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    titlePadding: EdgeInsets.all(10),
-                                    content: Text(
-                                      'Na pewno chcesz usunąć samochód?',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text(
-                                          'Nie',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                            ),
+                            onPressed: () => {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Uwaga',
+                                        style: TextStyle(
+                                          fontSize: 18,
                                         ),
                                       ),
-                                      FlatButton(
-                                        onPressed: () => {
-                                          _removeCurrentCar(),
-                                          Navigator.pop(context),
-                                        },
-                                        child: Text(
-                                          'Tak',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
+                                      titlePadding: EdgeInsets.all(10),
+                                      content: Text(
+                                        'Na pewno chcesz usunąć samochód?',
+                                        style: TextStyle(
+                                          fontSize: 18,
                                         ),
                                       ),
-                                    ],
-                                  );
-                                })
-                          },
-                        )
-                      ],
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            'Nie',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                        FlatButton(
+                                          onPressed: () => {
+                                            _removeCurrentCar(),
+                                            Navigator.pop(context),
+                                          },
+                                          child: Text(
+                                            'Tak',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  })
+                            },
+                          )
+                        ],
+                      ),
                     ),
                     Container(
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -404,6 +409,7 @@ class _CarInfoState extends State<CarInfo> {
                                               SizedBox(
                                                 width: double.infinity,
                                                 child: RaisedButton(
+                                                  color: Colors.teal[200],
                                                   child: Text(
                                                     'Zapisz',
                                                   ),

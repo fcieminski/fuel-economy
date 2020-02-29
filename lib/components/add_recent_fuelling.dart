@@ -124,6 +124,7 @@ class _AddRecentFuellingState extends State<AddRecentFuelling> {
                 SizedBox(
                   width: double.infinity,
                   child: RaisedButton(
+                    color: Colors.teal[200],
                     child: Text(
                       'Zapisz',
                     ),
