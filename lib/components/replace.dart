@@ -9,22 +9,7 @@ class Replace extends StatefulWidget {
 }
 
 class _ReplaceState extends State<Replace> {
-  List replace = [
-    {
-      'item': 'Olej silnikowy',
-      'when': 10000,
-      'price': 200,
-      'note': 'blablablablabla',
-      'isDone': true,
-    },
-    {
-      'item': 'Drążki kierownicze',
-      'when': 3000,
-      'price': 100,
-      'note': 'blablablxxxxxxx',
-      'isDone': false,
-    }
-  ];
+  List replace;
   var partToReplace = TextEditingController();
   var kmToReplace = TextEditingController();
   var price = TextEditingController();
@@ -173,27 +158,28 @@ class _ReplaceState extends State<Replace> {
                                               ),
                                               actions: <Widget>[
                                                 FlatButton(
-                                                    onPressed: () => {
-                                                          _removeReplacementInfo(
-                                                              element),
-                                                          Navigator.pop(
-                                                              context),
-                                                        },
-                                                    child: Text(
-                                                      'Tak',
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    )),
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: Text(
+                                                    'Nie',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
                                                 FlatButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: Text(
-                                                      'Nie',
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ))
+                                                  onPressed: () => {
+                                                    _removeReplacementInfo(
+                                                        element),
+                                                    Navigator.pop(context),
+                                                  },
+                                                  child: Text(
+                                                    'Tak',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             );
                                           }),
