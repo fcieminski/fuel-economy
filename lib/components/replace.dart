@@ -250,7 +250,7 @@ class _ReplaceState extends State<Replace> {
                             height: 1,
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(25),
+                           padding: const EdgeInsets.all(8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[

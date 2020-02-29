@@ -77,78 +77,133 @@ class _NotesState extends State<Notes> {
             children: <Widget>[
               if (notes != null && notes.isNotEmpty)
                 ...notes.map(
-                  (element) => Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(DateFormatter.date(element['date'])),
-                              Row(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
+                  (element) => Container(
+                      padding: const EdgeInsets.only(bottom: 8),
+                    child: Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            color: Colors.teal[50],
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(DateFormatter.date(element['date'])),
+                                Row(
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                      ),
+                                      onPressed: () => showDialog(
+                                          context: context,
+                                          builder: (_) {
+                                            editedNote.text = element['text'];
+                                            return SimpleDialog(children: <
+                                                Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    new TextField(
+                                                      maxLines: null,
+                                                      controller: editedNote,
+                                                      keyboardType:
+                                                          TextInputType.multiline,
+                                                    ),
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      child: RaisedButton(
+                                                        child: Text(
+                                                          'Zapisz',
+                                                        ),
+                                                        onPressed: () {
+                                                          _editNote(
+                                                              notes.indexOf(
+                                                                  element),
+                                                              editedNote.text);
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ]);
+                                          }),
                                     ),
-                                    onPressed: () => showDialog(
-                                        context: context,
-                                        builder: (_) {
-                                          editedNote.text = element['text'];
-                                          return SimpleDialog(children: <
-                                              Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.all(16),
-                                              child: Column(
-                                                children: <Widget>[
-                                                  new TextField(
-                                                    maxLines: null,
-                                                    controller: editedNote,
-                                                    keyboardType:
-                                                        TextInputType.multiline,
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.delete,
+                                      ),
+                                      onPressed: () => {
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  'Uwaga',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                titlePadding: EdgeInsets.all(10),
+                                                content: Text(
+                                                  'Na pewno chcesz usunąć notatkę?',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  FlatButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: Text(
+                                                      'Nie',
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
                                                   ),
                                                   FlatButton(
-                                                    child: Text(
-                                                      'Zapisz',
-                                                    ),
-                                                    onPressed: () {
-                                                      _editNote(
-                                                          notes
-                                                              .indexOf(element),
-                                                          editedNote.text);
-                                                      Navigator.pop(context);
+                                                    onPressed: () => {
+                                                      _deleteNote(element),
+                                                      Navigator.pop(context),
                                                     },
-                                                  )
+                                                    child: Text(
+                                                      'Tak',
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ],
-                                              ),
-                                            ),
-                                          ]);
-                                        }),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.delete,
-                                    ),
-                                    onPressed: () => _deleteNote(element),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 8.0, left: 8.0, right: 8.0),
-                          child: Text(
-                            element['text'],
-                            style: TextStyle(
-                              fontSize: 20,
+                                              );
+                                            })
+                                      },
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                          Divider(
+                            color: Colors.black12,
+                            height: 1,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              element['text'],
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -185,6 +240,7 @@ class _NotesState extends State<Notes> {
             context: context,
             builder: (_) {
               return Container(
+                padding: EdgeInsets.all(16),
                 child: Scaffold(
                   body: SingleChildScrollView(
                     child: Form(
@@ -195,14 +251,17 @@ class _NotesState extends State<Notes> {
                             controller: note,
                             keyboardType: TextInputType.multiline,
                           ),
-                          FlatButton(
-                            child: Text(
-                              'Zapisz',
+                          SizedBox(
+                            width: double.infinity,
+                            child: RaisedButton(
+                              child: Text(
+                                'Zapisz',
+                              ),
+                              onPressed: () {
+                                _submitNote();
+                                Navigator.pop(context);
+                              },
                             ),
-                            onPressed: () {
-                              _submitNote();
-                              Navigator.pop(context);
-                            },
                           )
                         ],
                       ),
